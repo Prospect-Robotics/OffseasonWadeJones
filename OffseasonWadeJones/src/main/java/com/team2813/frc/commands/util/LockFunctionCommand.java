@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import java.util.function.BooleanSupplier;
 
 public class LockFunctionCommand extends WaitUntilCommand {
+
     private final Runnable function;
 
     public LockFunctionCommand(BooleanSupplier condition, Runnable function) {

@@ -8,6 +8,7 @@ import java.util.concurrent.Callable;
  * Command that runs a function repeatedly until it returns true
  */
 public class LockCommand extends CommandBase {
+
     private Callable<Boolean> lockFunction;
     private boolean unlocked = false;
 
