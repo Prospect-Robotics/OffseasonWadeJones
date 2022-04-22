@@ -14,8 +14,10 @@ public class SparkMaxWrapper extends CANSparkMax {
      * @param deviceId The device ID.
      * @param type     The motor type connected to the controller. Brushless motor wires must be connected
      *                 to their matching colors and the hall sensor must be plugged in. Brushed motors must be
+     *                 connected to the Red and Black terminals only.
+     * @param inverted Whether the motor is inverted
      */
-    public SparkMaxWrapper(int deviceId, MotorType type) {
+    public SparkMaxWrapper(int deviceId, MotorType type, boolean inverted) {
         super(deviceId, type);
 
         restoreFactoryDefaults();
@@ -24,6 +26,8 @@ public class SparkMaxWrapper extends CANSparkMax {
         setClosedLoopRampRate(0);
         setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
         setSmartCurrentLimit(40);
+
+        setInverted(inverted);
     }
 
     /**

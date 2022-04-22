@@ -19,8 +19,9 @@ public class TalonFXWrapper extends TalonFX {
      * @param deviceNumber [0,62]
      * @param canbus Name of the CANbus; can be a SocketCAN interface (on Linux),
      *               or a CANivore device name or serial number
+     * @param invertType Invert state of the motor
      */
-    public TalonFXWrapper(int deviceNumber, String canbus) {
+    public TalonFXWrapper(int deviceNumber, String canbus, TalonFXInvertType invertType) {
         super(deviceNumber, canbus);
 
         configAllSettings(new TalonFXConfiguration());
@@ -29,13 +30,16 @@ public class TalonFXWrapper extends TalonFX {
         configClosedloopRamp(0);
         configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 40, 0.25));
         configVoltageCompSaturation(12);
+
+        setInverted(invertType);
     }
 
     /**
      * Constructor
      * @param deviceNumber [0,62]
+     * @param invertType Invert state of the motor
      */
-    public TalonFXWrapper(int deviceNumber) {
+    public TalonFXWrapper(int deviceNumber, TalonFXInvertType invertType) {
         super(deviceNumber);
 
         configAllSettings(new TalonFXConfiguration());
@@ -44,6 +48,8 @@ public class TalonFXWrapper extends TalonFX {
         configClosedloopRamp(0);
         configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 40, 0.25));
         configVoltageCompSaturation(12);
+
+        setInverted(invertType);
     }
 
     public void set(TalonFXControlMode controlMode, double demand, double feedForward) {
