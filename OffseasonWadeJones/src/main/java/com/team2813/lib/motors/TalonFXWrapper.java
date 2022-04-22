@@ -1,8 +1,8 @@
 package com.team2813.lib.motors;
 
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
@@ -11,7 +11,7 @@ import com.team2813.frc.util.Units2813;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TalonFXWrapper extends TalonFX {
+public class TalonFXWrapper extends TalonFX implements Motor {
     List<TalonFX> followers = new ArrayList<>();
 
     /**
@@ -52,37 +52,63 @@ public class TalonFXWrapper extends TalonFX {
         setInverted(invertType);
     }
 
-    public void set(TalonFXControlMode controlMode, double demand, double feedForward) {
-        switch (controlMode){
-            case Velocity:
-                demand = Units2813.motorRevsToTicks(demand / 60 / 10, 2048);
-                break;
-            case MotionMagic:
-                demand = Units2813.motorRevsToTicks(demand, 2048);
-                break;
-        }
-        set(controlMode, demand, DemandType.ArbitraryFeedForward, feedForward);
-    }
-
-    public void set(TalonFXControlMode controlMode, double demand) {
+    @Override
+    public void set(ControlMode controlMode, double demand) {
         set(controlMode, demand, 0);
     }
 
+    @Override
+    public void set(ControlMode controlMode, double demand, double feedForward) {
+        switch (controlMode){
+            case VELOCITY:
+                demand = Units2813.motorRevsToTicks(demand / 60 / 10, 2048);
+                break;
+            case MOTION_MAGIC:
+                demand = Units2813.motorRevsToTicks(demand, 2048);
+                break;
+        }
+        set(controlMode.getTalonMode(), demand, DemandType.ArbitraryFeedForward, feedForward);
+    }
+
+    @Override
     public double getEncoderPosition() {
-        return Units2813.ticksToMotorRevs(getSelectedSensorPosition(), 2048);
+        return getSelectedSensorPosition();
     }
 
-    /**
-     * Sets the PID coefficients for the PID at the given slot id (0 for Primary PID, 1 for Auxiliary PID)
-     * @param slotID Parameter slot for the constant
-     */
-    public void configPIDF(double p, double i, double d, double f, int slotID) {
-        config_kP(slotID, p);
-        config_kI(slotID, i);
-        config_kD(slotID, d);
-        config_kF(slotID, f);
+    @Override
+    public void setEncoderPosition(double position) {
+        setSelectedSensorPosition(position);
     }
 
+    @Override
+    public double getVelocity() { // returns in RPM
+        return Units2813.ticksToMotorRevs(getSelectedSensorVelocity(), 2048) * 10 * 60; // from ticks/100ms to rpm
+    }
+
+    @Override
+    public void configPIDF(int slot, double p, double i, double d, double f) {
+        config_kP(slot, p);
+        config_kI(slot, i);
+        config_kD(slot, d);
+        config_kF(slot, f);
+    }
+
+    @Override
+    public void configPIDF(double p, double i, double d, double f) {
+        configPIDF(0, p, i, d, f);
+    }
+
+    @Override
+    public void configPID(int slot, double p, double i, double d) {
+        configPIDF(slot, p, i, d, 0);
+    }
+
+    @Override
+    public void configPID(double p, double i, double d) {
+        configPIDF(0, p, i, d, 0);
+    }
+
+    @Override
     public void configMotionMagic(double maxVelocity, double maxAcceleration) {
         configMotionCruiseVelocity(maxVelocity);
         configMotionAcceleration(maxAcceleration);
@@ -92,17 +118,25 @@ public class TalonFXWrapper extends TalonFX {
         TalonFX follower = new TalonFX(deviceNumber, canbus);
         follower.follow(this);
         follower.setInverted(invertType);
-        followers.add(follower); // add to the list to preserve TalonFX follower object
+        followers.add(follower); // add to follower list so TalonFX follower object is preserved
+    }
+
+    public void addFollower(int deviceNumber, String canbus, FollowerType followerType) {
+        TalonFX follower = new TalonFX(deviceNumber, canbus);
+        follower.follow(this, followerType);
+        followers.add(follower); // add to follower list so TalonFX follower object is preserved
     }
 
     public void addFollower(int deviceNumber, TalonFXInvertType invertType) {
         TalonFX follower = new TalonFX(deviceNumber);
         follower.follow(this);
         follower.setInverted(invertType);
-        followers.add(follower); // add to the list to preserve TalonFX follower object
+        followers.add(follower); // add to follower list so TalonFX follower object is preserved
     }
 
-    public double getVelocity() { // returns in rpm
-        return Units2813.ticksToMotorRevs(getSelectedSensorVelocity(), 2048) * 10 * 60; // from ticks/100ms to rpm
+    public void addFollower(int deviceNumber, FollowerType followerType) {
+        TalonFX follower = new TalonFX(deviceNumber);
+        follower.follow(this, followerType);
+        followers.add(follower); // add to follower list so TalonFX follower object is preserved
     }
 }
