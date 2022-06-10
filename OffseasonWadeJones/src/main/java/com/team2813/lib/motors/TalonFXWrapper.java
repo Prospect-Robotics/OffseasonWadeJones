@@ -27,9 +27,9 @@ public class TalonFXWrapper extends TalonFX implements Motor {
         configAllSettings(new TalonFXConfiguration());
 
         enableVoltageCompensation(true);
+        configVoltageCompSaturation(12);
         configClosedloopRamp(0);
         configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 40, 0.25));
-        configVoltageCompSaturation(12);
 
         setInverted(invertType);
     }
@@ -45,9 +45,9 @@ public class TalonFXWrapper extends TalonFX implements Motor {
         configAllSettings(new TalonFXConfiguration());
 
         enableVoltageCompensation(true);
+        configVoltageCompSaturation(12);
         configClosedloopRamp(0);
         configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 40, 0.25));
-        configVoltageCompSaturation(12);
 
         setInverted(invertType);
     }
