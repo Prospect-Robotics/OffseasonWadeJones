@@ -20,8 +20,8 @@ public class PigeonWrapper extends PigeonIMU {
         return 0;
     }
 
-    public void setHeading() {
-        setYaw(0);
+    public void setHeading(double angle) {
+        setYaw(angle);
         setAccumZAngle(0);
     }
 }
