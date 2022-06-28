@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Subsystem1d<P extends Subsystem1d.Position> extends SubsystemBase {
 
-    private Motor motor;
+    private final Motor motor;
     protected PeriodicIO periodicIO = new PeriodicIO();
-    private boolean zeroed = false;
     private boolean motionMagicEnabled = true;
+    private boolean demandSet = false; // done so that motor does not go to a specific position until a position has been set
 
     public Subsystem1d(SparkMaxWrapper motor) {
         this.motor = motor;
@@ -29,6 +29,7 @@ public class Subsystem1d<P extends Subsystem1d.Position> extends SubsystemBase {
         motor.setNeutralMode(NeutralMode.Brake);
     }
 
+    // if overridden, overriding method should call this method (use super keyword)
     @Override
     public void periodic() {
         readPeriodicInputs();
@@ -36,28 +37,15 @@ public class Subsystem1d<P extends Subsystem1d.Position> extends SubsystemBase {
     }
 
     private void writePeriodicOutputs() {
-        resetIfAtLimit();
-        if (!periodicIO.openLoop && motionMagicEnabled)
-            motor.set(ControlMode.MOTION_MAGIC, periodicIO.demand);
+        if (demandSet && motionMagicEnabled) motor.set(ControlMode.MOTION_MAGIC, periodicIO.demand);
     }
 
     private void readPeriodicInputs() {
         periodicIO.positionTicks = motor.getEncoderPosition();
     }
 
-    public synchronized void resetIfAtLimit() {
-        if (periodicIO.limitSwitch) {
-            zeroSensors();
-        }
-    }
-
     public void zeroSensors() {
         motor.setEncoderPosition(0);
-        zeroed = true;
-    }
-
-    public boolean isZeroed() {
-        return zeroed;
     }
 
     public void enableMotionMagic(boolean enabled) {
@@ -71,11 +59,7 @@ public class Subsystem1d<P extends Subsystem1d.Position> extends SubsystemBase {
     class PeriodicIO {
         double demand;
 
-        boolean limitSwitch;
-
         double positionTicks;
-
-        boolean openLoop = false;
     }
 
     /*==========================
@@ -94,8 +78,9 @@ public class Subsystem1d<P extends Subsystem1d.Position> extends SubsystemBase {
     }
 
     synchronized void setPosition(double encoderTicks) {
+        demandSet = true;
+        enableMotionMagic(true);
         periodicIO.demand = encoderTicks;
-        periodicIO.openLoop = false;
     }
 
     synchronized void setPosition(P position) {
