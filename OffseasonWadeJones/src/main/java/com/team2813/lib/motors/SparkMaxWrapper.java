@@ -30,8 +30,11 @@ public class SparkMaxWrapper extends CANSparkMax implements Motor {
 
         enableVoltageCompensation(12);
         setClosedLoopRampRate(0);
-        setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
         setSmartCurrentLimit(40);
+
+        setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10);
+        setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
+        setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
 
         setInverted(inverted);
     }
