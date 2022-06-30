@@ -24,13 +24,12 @@ public class TalonFXWrapper extends TalonFX implements Motor {
     public TalonFXWrapper(int deviceNumber, String canbus, TalonFXInvertType invertType) {
         super(deviceNumber, canbus);
 
-        configAllSettings(new TalonFXConfiguration());
+        TalonFXConfiguration motorConfiguration = new TalonFXConfiguration();
+        motorConfiguration.voltageCompSaturation = 12;
+        motorConfiguration.supplyCurrLimit = new SupplyCurrentLimitConfiguration(true, 40, 40, 0.25);
+        configAllSettings(motorConfiguration);
 
         enableVoltageCompensation(true);
-        configVoltageCompSaturation(12);
-        configClosedloopRamp(0);
-        configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 40, 0.25));
-
         setInverted(invertType);
     }
 
@@ -42,13 +41,12 @@ public class TalonFXWrapper extends TalonFX implements Motor {
     public TalonFXWrapper(int deviceNumber, TalonFXInvertType invertType) {
         super(deviceNumber);
 
-        configAllSettings(new TalonFXConfiguration());
+        TalonFXConfiguration motorConfiguration = new TalonFXConfiguration();
+        motorConfiguration.voltageCompSaturation = 12;
+        motorConfiguration.supplyCurrLimit = new SupplyCurrentLimitConfiguration(true, 40, 40, 0.25);
+        configAllSettings(motorConfiguration);
 
         enableVoltageCompensation(true);
-        configVoltageCompSaturation(12);
-        configClosedloopRamp(0);
-        configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 40, 0.25));
-
         setInverted(invertType);
     }
 
