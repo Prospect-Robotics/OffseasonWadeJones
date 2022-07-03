@@ -24,7 +24,7 @@ public class Subsystem1d<P extends Subsystem1d.Position> extends SubsystemBase {
 
     public Subsystem1d(TalonFXWrapper motor) {
         this.motor = motor;
-        motor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 125);
+        motor.setStatusFramePeriod(StatusFrameEnhanced.Status_21_FeedbackIntegrated, 125);
         motor.set(ControlMode.DUTY_CYCLE, 0);
         motor.setNeutralMode(NeutralMode.Brake);
     }
