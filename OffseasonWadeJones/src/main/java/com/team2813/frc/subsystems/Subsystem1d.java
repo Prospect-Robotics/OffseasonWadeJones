@@ -3,6 +3,7 @@ package com.team2813.frc.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.team2813.lib.motors.ControlMode;
 import com.team2813.lib.motors.Motor;
 import com.team2813.lib.motors.SparkMaxWrapper;
@@ -18,6 +19,8 @@ public class Subsystem1d<P extends Subsystem1d.Position> extends SubsystemBase {
 
     public Subsystem1d(SparkMaxWrapper motor) {
         this.motor = motor;
+        motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 25);
+        motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 100);
         motor.set(ControlMode.DUTY_CYCLE, 0);
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
