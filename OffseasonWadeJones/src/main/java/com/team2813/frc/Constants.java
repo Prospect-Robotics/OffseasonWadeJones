@@ -6,9 +6,6 @@
 package com.team2813.frc;
 
 import edu.wpi.first.math.util.Units;
-import com.team2813.lib.controls.Controller;
-import com.team2813.lib.controls.Axis;
-import com.team2813.lib.controls.Button;
 
 
 
@@ -38,7 +35,7 @@ public final class Constants {
     public static final double FLYWHEEL_CIRCUMFERENCE = Math.PI * FLYWHEEL_DIAMETER;
     public static final double FLYWHEEL_UPDUCTION = 3.0 / 2.0;
 
-    public static final double DEFAULT_SHOOT_DEMAND = 250;
-    public static final double MANUAL_SHOOT_DEMAND = 1900;
-    public static final double LOW_SHOOT_DEMAND = 1500;
+    public static final double DEFAULT_SHOOT_DEMAND = 250; // RPM
+    public static final double MANUAL_SHOOT_DEMAND = 1900; // RPM
+    public static final double LOW_SHOOT_DEMAND = 1500; // RPM
 }
