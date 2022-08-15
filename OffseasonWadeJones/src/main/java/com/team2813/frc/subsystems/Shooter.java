@@ -50,7 +50,7 @@ public class Shooter extends SubsystemBase
         SmartDashboard.putNumber("Distance to Target", limelight.calculateHorizontalDistance());
     }
 
-    public void setShooter(double demand) {
+    public void setFlywheelRPM(double demand) {
         double motorDemand = Units2813.wheelRevsToMotorRevs(demand, FLYWHEEL_UPDUCTION);
         flywheel.set(ControlMode.VELOCITY, motorDemand, feedforward.calculate(motorDemand / 60));
     }

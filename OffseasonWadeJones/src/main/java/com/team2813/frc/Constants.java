@@ -21,14 +21,17 @@ import com.team2813.lib.controls.Button;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    // drive
+    // Drive Constants
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double GEAR_RATIO = 1 / 7.64;
 
+    // Shooter Constants
     public static final double FLYWHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double FLYWHEEL_CIRCUMFERENCE = Math.PI * FLYWHEEL_DIAMETER;
     public static final double FLYWHEEL_UPDUCTION = 3.0 / 2.0;
-    public static final double spoolDemand = 3600;
-    public final double lowDemand = 1500;
+
+    public static final double DEFAULT_SHOOT_DEMAND = 250;
+    public static final double MANUAL_SHOOT_DEMAND = 1900;
+    public static final double LOW_SHOOT_DEMAND = 1500;
 }

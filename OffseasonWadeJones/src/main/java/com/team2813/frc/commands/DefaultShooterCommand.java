@@ -1,7 +1,9 @@
 package com.team2813.frc.commands;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.team2813.frc.subsystems.Shooter;
 
+import static com.team2813.frc.Constants.*;
 
 public class DefaultShooterCommand extends CommandBase{
 
@@ -10,12 +12,11 @@ public class DefaultShooterCommand extends CommandBase{
     public DefaultShooterCommand(Shooter ShooterSubsystem)
     {
         this.ShooterSubsystem = ShooterSubsystem;
-        // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(ShooterSubsystem);
     }
 
     @Override
     public void initialize() {
-        ShooterSubsystem.setShooter(250);
+        ShooterSubsystem.setFlywheelRPM(DEFAULT_SHOOT_DEMAND);
     }
 }
