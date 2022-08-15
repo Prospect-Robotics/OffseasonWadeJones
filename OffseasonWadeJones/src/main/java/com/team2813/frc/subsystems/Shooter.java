@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase
     }
 
     public boolean isFlywheelReady() {
-        return Math.abs(Units2813.motorRevsToWheelRevs(FLYWHEEL.getVelocity(), FLYWHEEL_UPDUCTION) - demand) < 175;
+        return Math.abs(Units2813.motorRevsToWheelRevs(FLYWHEEL.getVelocity(), ShooterConstants.FLYWHEEL_UPDUCTION) - demand) < 175;
     }
 
     boolean isFullyRevvedUp() {
@@ -45,7 +45,7 @@ public class Shooter extends SubsystemBase
 
     @Override
     public void outputTelemetry() {
-        double flywheelVelocity = Units2813.motorRevsToWheelRevs(FLYWHEEL.getVelocity(), FLYWHEEL_UPDUCTION);
+        double flywheelVelocity = Units2813.motorRevsToWheelRevs(FLYWHEEL.getVelocity(), ShooterConstants.FLYWHEEL_UPDUCTION);
         double error = demand - flywheelVelocity;
         SmartDashboard.putNumber("Flywheel Demand", demand);
         SmartDashboard.putNumber("Flywheel Velocity", flywheelVelocity);
