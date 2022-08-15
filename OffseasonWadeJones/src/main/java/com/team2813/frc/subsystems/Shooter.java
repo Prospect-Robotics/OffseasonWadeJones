@@ -18,40 +18,37 @@ public class Shooter extends SubsystemBase
     private final double kI = 0.0025;
     private final double kD = 2.5;
 
-    private final TalonFXWrapper flywheel = new TalonFXWrapper(7, TalonFXInvertType.Clockwise);
+    private final TalonFXWrapper flywheelMotor = new TalonFXWrapper(FLYWHEEL_MASTER_ID, TalonFXInvertType.Clockwise);
     private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(1.2795, 0.18545, 0.081586);
     private final Limelight limelight = Limelight.getInstance();
 
     private double demand;
-    private boolean isFullyRevvedUp;
 
     public Shooter() {
-        flywheel.addFollower(8, TalonFXInvertType.OpposeMaster);
-        flywheel.setStatusFramePeriod(StatusFrameEnhanced.Status_21_FeedbackIntegrated, 125);
-        flywheel.configPID(kP, kI, kD);
+        flywheelMotor.addFollower(FLYWHEEL_FOLLOWER_ID, TalonFXInvertType.OpposeMaster);
+        flywheelMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_21_FeedbackIntegrated, 125);
+        flywheelMotor.configPID(kP, kI, kD);
     }
 
     public boolean isFlywheelReady() {
-        return Math.abs(Units2813.motorRevsToWheelRevs(flywheel.getVelocity(), FLYWHEEL_UPDUCTION) - demand) < 25;
-    }
-
-    boolean isFullyRevvedUp() {
-        return isFullyRevvedUp;
+        return Math.abs(Units2813.motorRevsToWheelRevs(flywheelMotor.getVelocity(), FLYWHEEL_UPDUCTION) - demand) < 100;
     }
 
     @Override
     public void periodic() {
-        double flywheelVelocity = Units2813.motorRevsToWheelRevs(flywheel.getVelocity(), FLYWHEEL_UPDUCTION);
+        double flywheelVelocity = Units2813.motorRevsToWheelRevs(flywheelMotor.getVelocity(), FLYWHEEL_UPDUCTION);
         double error = demand - flywheelVelocity;
         SmartDashboard.putNumber("Flywheel Demand", demand);
         SmartDashboard.putNumber("Flywheel Velocity", flywheelVelocity);
         SmartDashboard.putNumber("Flywheel Error", error);
-        SmartDashboard.putNumber("Flywheel Encoder", flywheel.getEncoderPosition());
+        SmartDashboard.putNumber("Flywheel Encoder", flywheelMotor.getEncoderPosition());
         SmartDashboard.putNumber("Distance to Target", limelight.calculateHorizontalDistance());
     }
 
     public void setFlywheelRPM(double demand) {
+        this.demand = demand;
+
         double motorDemand = Units2813.wheelRevsToMotorRevs(demand, FLYWHEEL_UPDUCTION);
-        flywheel.set(ControlMode.VELOCITY, motorDemand, feedforward.calculate(motorDemand / 60));
+        flywheelMotor.set(ControlMode.VELOCITY, motorDemand, feedforward.calculate(motorDemand / 60));
     }
 }

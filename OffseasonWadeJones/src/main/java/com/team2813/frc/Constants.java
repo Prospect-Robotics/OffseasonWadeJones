@@ -21,6 +21,13 @@ import com.team2813.lib.controls.Button;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    // CAN IDs
+
+    // Shooter
+    public static final int FLYWHEEL_MASTER_ID = 7;
+    public static final int FLYWHEEL_FOLLOWER_ID = 8;
+
     // Drive Constants
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
