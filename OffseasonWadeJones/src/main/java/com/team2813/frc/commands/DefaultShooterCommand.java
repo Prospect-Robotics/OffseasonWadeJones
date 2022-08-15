@@ -7,16 +7,16 @@ import static com.team2813.frc.Constants.*;
 
 public class DefaultShooterCommand extends CommandBase{
 
-    private final Shooter ShooterSubsystem;
+    private final Shooter shooterSubsystem;
 
     public DefaultShooterCommand(Shooter ShooterSubsystem)
     {
-        this.ShooterSubsystem = ShooterSubsystem;
+        this.shooterSubsystem = ShooterSubsystem;
         addRequirements(ShooterSubsystem);
     }
 
     @Override
     public void initialize() {
-        ShooterSubsystem.setFlywheelRPM(DEFAULT_SHOOT_DEMAND);
+        shooterSubsystem.setFlywheelRPM(DEFAULT_SHOOT_DEMAND);
     }
 }

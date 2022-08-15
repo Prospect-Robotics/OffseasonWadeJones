@@ -55,13 +55,13 @@ public class RobotContainer
     {
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
-        MANUAL_SHOOTER_BUTTON.whenActive(new SequentialCommandGroup(
-                new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND))
+        MANUAL_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
+                new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter)
                 // Magazine stuff here
         ));
 
-        LOW_SHOOTER_BUTTON.whenActive(new SequentialCommandGroup(
-                new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND))
+        LOW_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
+                new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND), shooter)
                 // Magazine stuff here
         ));
     }
