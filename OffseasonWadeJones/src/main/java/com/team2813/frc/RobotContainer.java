@@ -64,6 +64,8 @@ public class RobotContainer
                 new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND))
                 // Magazine stuff here
         ));
+
+
     }
     
     
