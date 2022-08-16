@@ -31,8 +31,6 @@ public final class Constants {
     public static final double GEAR_RATIO = 1 / 7.64;
 
     // Shooter Constants
-    public static final double FLYWHEEL_DIAMETER = Units.inchesToMeters(4);
-    public static final double FLYWHEEL_CIRCUMFERENCE = Math.PI * FLYWHEEL_DIAMETER;
     public static final double FLYWHEEL_UPDUCTION = 3.0 / 2.0;
 
     public static final double DEFAULT_SHOOT_DEMAND = 250; // RPM
