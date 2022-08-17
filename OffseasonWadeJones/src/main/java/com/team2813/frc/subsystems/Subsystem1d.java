@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Subsystem1d<P extends Subsystem1d.Position> extends SubsystemBase {
 
-    private static final Motor motor;
+    private final Motor motor;
     protected PeriodicIO periodicIO = new PeriodicIO();
     private boolean motionMagicEnabled = true;
     private boolean demandSet = false; // done so that motor does not go to a specific position until a position has been set
