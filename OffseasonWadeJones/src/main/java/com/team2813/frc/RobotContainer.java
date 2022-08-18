@@ -8,6 +8,7 @@ package com.team2813.frc;
 import com.team2813.frc.commands.DefaultShooterCommand;
 import com.team2813.frc.commands.ExampleCommand;
 import com.team2813.frc.commands.util.LockFunctionCommand;
+import com.team2813.frc.subsystems.Climber;
 import com.team2813.frc.subsystems.ExampleSubsystem;
 import com.team2813.frc.subsystems.Shooter;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -31,7 +32,8 @@ public class RobotContainer
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     private final Shooter shooter = new Shooter();
-    
+    private final Climber climber = new Climber();
+
     private final ExampleCommand autoCommand = new ExampleCommand(exampleSubsystem);
     
     
@@ -64,6 +66,8 @@ public class RobotContainer
                 new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND), shooter)
                 // Magazine stuff here
         ));
+
+
     }
     
     
