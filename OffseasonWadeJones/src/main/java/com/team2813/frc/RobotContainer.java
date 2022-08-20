@@ -9,10 +9,12 @@ import com.team2813.frc.commands.DefaultShooterCommand;
 import com.team2813.frc.commands.ExampleCommand;
 import com.team2813.frc.commands.util.LockFunctionCommand;
 import com.team2813.frc.subsystems.ExampleSubsystem;
+import com.team2813.frc.subsystems.Magazine;
 import com.team2813.frc.subsystems.Shooter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import static com.team2813.frc.Constants.*;
@@ -31,6 +33,7 @@ public class RobotContainer
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     private final Shooter shooter = new Shooter();
+    private final Magazine magazine = new Magazine();
     
     private final ExampleCommand autoCommand = new ExampleCommand(exampleSubsystem);
     
@@ -56,14 +59,16 @@ public class RobotContainer
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
         MANUAL_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
-                new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter)
-                // Magazine stuff here
+                new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
+                new InstantCommand(magazine::shoot)
         ));
+        MANUAL_SHOOTER_BUTTON.whenReleased(magazine::stop, magazine);
 
         LOW_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
-                new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND), shooter)
-                // Magazine stuff here
+                new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND), shooter),
+                new InstantCommand(magazine::lowShoot)
         ));
+        LOW_SHOOTER_BUTTON.whenReleased(magazine::stop, magazine);
     }
     
     
