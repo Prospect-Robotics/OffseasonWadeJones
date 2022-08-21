@@ -49,11 +49,11 @@ public class Subsystem1d<P extends Subsystem1d.Position> extends SubsystemBase {
         Position getMax();
     }
 
-    synchronized void setPosition(double encoderTicks) {
+    public void setPosition(double encoderTicks) {
         motor.set(ControlMode.MOTION_MAGIC, encoderTicks);
     }
 
-    synchronized void setPosition(P position) {
+    public void setPosition(P position) {
         currentPosition = position;
         setPosition(position.getPos());
     }

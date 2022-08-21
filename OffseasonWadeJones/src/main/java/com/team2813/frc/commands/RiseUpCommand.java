@@ -1,25 +1,24 @@
 package com.team2813.frc.commands;
+
+import com.team2813.frc.commands.util.LockFunctionCommand;
+import com.team2813.frc.commands.util.RetractCommand;
 import com.team2813.frc.subsystems.Climber;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import com.team2813.lib.solenoid.SolenoidGroup;
+import edu.wpi.first.wpilibj2.command.*;
 
-public class RiseUpCommand extends CommandBase {
-    private final Climber ClimberSubsystem;
+public class RiseUpCommand extends SequentialCommandGroup {
 
-    public RiseUpCommand(Climber ClimberSubsystem)
+    public RiseUpCommand(Climber climberSubsystem)
     {
-        this.ClimberSubsystem = ClimberSubsystem;
-        addRequirements(ClimberSubsystem);
-    }
-
-    @Override
-    public void initialize() {
-        ClimberSubsystem.setNextPosition(Position.RISE_POS), this::positionReached, true),
-        new FunctionalCommand(PISTONS::toggle, true)
-        ClimberSubsystem.setNextPosition(Position.NEXT_BAR), this::positionReached, true),
-        new FunctionalCommand(PISTONS::toggle, true)
-        new WaitCommand(0.75);
-        new FunctionalCommand(this::retract, true);
+        super(
+                new ParallelCommandGroup(
+                        new LockFunctionCommand(climberSubsystem::positionReached, () -> climberSubsystem.setPosition(Climber.Position.RISE_POS), climberSubsystem),
+                        new InstantCommand(() -> climberSubsystem.setPistons(SolenoidGroup.PistonState.EXTENDED))
+                ),
+                new LockFunctionCommand(climberSubsystem::positionReached, () -> climberSubsystem.setPosition(Climber.Position.NEXT_BAR), climberSubsystem),
+                new InstantCommand(()-> climberSubsystem.setPistons(SolenoidGroup.PistonState.RETRACTED)),
+                new WaitCommand(0.75),
+                new RetractCommand(climberSubsystem)
+        );
     }
 }
