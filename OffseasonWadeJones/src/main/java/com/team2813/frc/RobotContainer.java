@@ -8,14 +8,18 @@ package com.team2813.frc;
 import com.team2813.frc.commands.DefaultShooterCommand;
 import com.team2813.frc.commands.ExampleCommand;
 import com.team2813.frc.commands.util.LockFunctionCommand;
+import com.team2813.frc.commands.util.RetractCommand;
+import com.team2813.frc.subsystems.Climber;
 import com.team2813.frc.subsystems.ExampleSubsystem;
 import com.team2813.frc.subsystems.Magazine;
 import com.team2813.frc.subsystems.Shooter;
+import com.team2813.lib.solenoid.SolenoidGroup;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.*;
 
 import static com.team2813.frc.Constants.*;
 import static com.team2813.frc.Controls.*;
@@ -34,7 +38,7 @@ public class RobotContainer
     private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     private final Shooter shooter = new Shooter();
     private final Magazine magazine = new Magazine();
-    
+    private final Climber climber = new Climber();
     private final ExampleCommand autoCommand = new ExampleCommand(exampleSubsystem);
     
     
@@ -69,6 +73,19 @@ public class RobotContainer
                 new InstantCommand(magazine::lowShoot)
         ));
         LOW_SHOOTER_BUTTON.whenReleased(magazine::stop, magazine);
+
+        EXTEND_BUTTON.whenPressed(() -> climber.setPosition(Climber.Position.EXTENDED));
+
+        RISE_UP_BUTTON.whenPressed(new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        new LockFunctionCommand(climber::positionReached, () -> climber.setPosition(Climber.Position.RISE_POS), climber),
+                        new InstantCommand(() -> climber.setPistons(SolenoidGroup.PistonState.EXTENDED))
+                ),
+                new LockFunctionCommand(climber::positionReached, () -> climber.setPosition(Climber.Position.NEXT_BAR), climber),
+                new InstantCommand(()-> climber.setPistons(SolenoidGroup.PistonState.RETRACTED)),
+                new WaitCommand(0.75),
+                new RetractCommand(climber)
+        ));
     }
     
     
