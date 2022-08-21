@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TalonFXWrapper extends TalonFX implements Motor {
-    List<TalonFX> followers = new ArrayList<>();
+    private final List<TalonFX> followers = new ArrayList<>();
 
     /**
      * Constructor
