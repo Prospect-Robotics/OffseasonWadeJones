@@ -11,6 +11,7 @@ public final class Controls {
 
     // operator controls
     private static final PS4Controller OPERATOR = new PS4Controller(1);
+    public static final JoystickButton SPOOL_BUTTON = new JoystickButton(OPERATOR, 7);
     public static final JoystickButton EXTEND_BUTTON = new JoystickButton(OPERATOR, 1);
     public static final JoystickButton MID_CLIMB_BUTTON = new JoystickButton(OPERATOR, 2);
     public static final JoystickButton RISE_UP_BUTTON = new JoystickButton(OPERATOR, 3);

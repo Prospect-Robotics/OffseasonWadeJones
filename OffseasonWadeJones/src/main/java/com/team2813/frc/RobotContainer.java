@@ -62,27 +62,32 @@ public class RobotContainer
     {
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
+        SPOOL_BUTTON.whenPressed(new SequentialCommandGroup(
+                new InstantCommand(() -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
+                new WaitUntilCommand(() -> (MANUAL_SHOOTER_BUTTON.get() || LOW_SHOOTER_BUTTON.get()))
+        ));
+
         MANUAL_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
                 new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
-                new InstantCommand(magazine::shoot)
+                new InstantCommand(magazine::shoot, magazine)
         ));
         MANUAL_SHOOTER_BUTTON.whenReleased(magazine::stop, magazine);
 
         LOW_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
                 new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND), shooter),
-                new InstantCommand(magazine::lowShoot)
+                new InstantCommand(magazine::lowShoot, magazine)
         ));
         LOW_SHOOTER_BUTTON.whenReleased(magazine::stop, magazine);
 
-        EXTEND_BUTTON.whenPressed(() -> climber.setPosition(Climber.Position.EXTENDED));
+        EXTEND_BUTTON.whenPressed(() -> climber.setPosition(Climber.Position.EXTENDED), climber);
 
         RISE_UP_BUTTON.whenPressed(new SequentialCommandGroup(
                 new ParallelCommandGroup(
                         new LockFunctionCommand(climber::positionReached, () -> climber.setPosition(Climber.Position.RISE_POS), climber),
-                        new InstantCommand(() -> climber.setPistons(SolenoidGroup.PistonState.EXTENDED))
+                        new InstantCommand(() -> climber.setPistons(SolenoidGroup.PistonState.EXTENDED), climber)
                 ),
                 new LockFunctionCommand(climber::positionReached, () -> climber.setPosition(Climber.Position.NEXT_BAR), climber),
-                new InstantCommand(()-> climber.setPistons(SolenoidGroup.PistonState.RETRACTED)),
+                new InstantCommand(()-> climber.setPistons(SolenoidGroup.PistonState.RETRACTED), climber),
                 new WaitCommand(0.75),
                 new RetractCommand(climber)
         ));
