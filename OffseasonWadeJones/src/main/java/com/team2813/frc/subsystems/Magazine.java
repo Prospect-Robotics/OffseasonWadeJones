@@ -6,13 +6,15 @@ import com.team2813.lib.motors.ControlMode;
 import com.team2813.lib.motors.TalonFXWrapper;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import static com.team2813.frc.Constants.*;
+
 public class Magazine extends SubsystemBase {
 
-    private final TalonFXWrapper magazineMotor = new TalonFXWrapper(9, TalonFXInvertType.Clockwise);
-    private final TalonFXWrapper kickerMotor = new TalonFXWrapper(11, TalonFXInvertType.CounterClockwise);
+    private final TalonFXWrapper magazineMotor = new TalonFXWrapper(MAGAZINE_MASTER_ID, TalonFXInvertType.Clockwise);
+    private final TalonFXWrapper kickerMotor = new TalonFXWrapper(KICKER_ID, TalonFXInvertType.CounterClockwise);
 
     public Magazine () {
-        magazineMotor.addFollower(10, TalonFXInvertType.OpposeMaster);
+        magazineMotor.addFollower(MAGAZINE_FOLLOWER_ID, TalonFXInvertType.OpposeMaster);
         magazineMotor.setNeutralMode(NeutralMode.Brake);
         kickerMotor.setNeutralMode(NeutralMode.Brake);
     }

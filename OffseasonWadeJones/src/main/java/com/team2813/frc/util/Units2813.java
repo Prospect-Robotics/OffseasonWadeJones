@@ -2,7 +2,7 @@ package com.team2813.frc.util;
 
 import com.team2813.lib.drive.DriveDemand;
 
-import static com.team2813.frc.Constants.GEAR_RATIO;
+import static com.team2813.frc.Constants.DRIVE_GEAR_RATIO;
 import static com.team2813.frc.Constants.WHEEL_CIRCUMFERENCE;
 
 public class Units2813 {
@@ -24,11 +24,11 @@ public class Units2813 {
 
     // drivetrain velocity to motor rpms
     public static double dtVelocityToMotorRpm(double speed) {
-        return wheelRevsToMotorRevs(speed / WHEEL_CIRCUMFERENCE, GEAR_RATIO) * 60;
+        return wheelRevsToMotorRevs(speed / WHEEL_CIRCUMFERENCE, DRIVE_GEAR_RATIO) * 60;
     }
 
     public static double motorRpmToDtVelocity(double rpm) {
-        return motorRevsToWheelRevs(rpm, GEAR_RATIO) * WHEEL_CIRCUMFERENCE / 60;
+        return motorRevsToWheelRevs(rpm, DRIVE_GEAR_RATIO) * WHEEL_CIRCUMFERENCE / 60;
     }
 
     public static DriveDemand dtDemandToMotorDemand(DriveDemand demand) { // input in m/s output in motor rpm

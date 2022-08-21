@@ -25,10 +25,15 @@ public final class Constants {
     public static final int FLYWHEEL_MASTER_ID = 7;
     public static final int FLYWHEEL_FOLLOWER_ID = 8;
 
+    // Magazine
+    public static final int MAGAZINE_MASTER_ID = 9;
+    public static final int MAGAZINE_FOLLOWER_ID = 10;
+    public static final int KICKER_ID = 11;
+
     // Drive Constants
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
-    public static final double GEAR_RATIO = 1 / 7.64;
+    public static final double DRIVE_GEAR_RATIO = 1 / 7.64;
 
     // Shooter Constants
     public static final double FLYWHEEL_UPDUCTION = 3.0 / 2.0;

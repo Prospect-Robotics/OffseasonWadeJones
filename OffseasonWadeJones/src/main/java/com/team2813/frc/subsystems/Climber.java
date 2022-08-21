@@ -14,7 +14,7 @@ public class Climber extends Subsystem1d<Climber.Position> {
         super(new TalonFXWrapper(12, TalonFXInvertType.Clockwise));
 
         motor.configPID(0.4, 0, 0);
-        motor.configMotionMagic(30000, 30000); // max vel and max accel in ticks/100ms
+        motor.configMotionMagic(30000, 30000); // max vel in ticks/100ms
     }
 
     @Override
