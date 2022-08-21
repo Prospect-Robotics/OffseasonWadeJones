@@ -1,19 +1,10 @@
 package com.team2813.frc.subsystems;
 
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
-import com.team2813.lib.motors.ControlMode;
 import com.team2813.lib.motors.TalonFXWrapper;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.team2813.lib.solenoid.SolenoidGroup;
-import static com.team2813.frc.subsystems.Subsystem1d.*;
-
-import static com.team2813.frc.Constants.*;
 
 public class Climber extends Subsystem1d<Climber.Position> {
 
@@ -27,6 +18,10 @@ public class Climber extends Subsystem1d<Climber.Position> {
     public void periodic() {
         SmartDashboard.putNumber("Climber Encoder", motor.getEncoderPosition());
         SmartDashboard.putNumber("Climber Velocity", motor.getVelocity());
+    }
+
+    public double getMotorVelocity(){
+        return motor.getVelocity();
     }
 
     public boolean positionReached() {
