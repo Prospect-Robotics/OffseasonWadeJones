@@ -14,10 +14,6 @@ import static com.team2813.frc.Constants.*;
 
 public class Shooter extends SubsystemBase 
 {
-    private final double kP = 0.75;
-    private final double kI = 0.0025;
-    private final double kD = 2.5;
-
     private final TalonFXWrapper flywheelMotor = new TalonFXWrapper(FLYWHEEL_MASTER_ID, TalonFXInvertType.Clockwise);
     private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(1.2795, 0.18545, 0.081586);
     private final Limelight limelight = Limelight.getInstance();
@@ -27,7 +23,7 @@ public class Shooter extends SubsystemBase
     public Shooter() {
         flywheelMotor.addFollower(FLYWHEEL_FOLLOWER_ID, TalonFXInvertType.OpposeMaster);
         flywheelMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_21_FeedbackIntegrated, 125);
-        flywheelMotor.configPID(kP, kI, kD);
+        flywheelMotor.configPID(0.75, 0.0025, 2.5);
     }
 
     public boolean isFlywheelReady() {
