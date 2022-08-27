@@ -8,11 +8,8 @@ package com.team2813.frc;
 import com.team2813.frc.commands.DefaultShooterCommand;
 import com.team2813.frc.commands.ExampleCommand;
 import com.team2813.frc.commands.util.LockFunctionCommand;
-import com.team2813.frc.commands.util.RetractCommand;
-import com.team2813.frc.subsystems.Climber;
-import com.team2813.frc.subsystems.ExampleSubsystem;
-import com.team2813.frc.subsystems.Magazine;
-import com.team2813.frc.subsystems.Shooter;
+import com.team2813.frc.commands.ClimberRetractCommand;
+import com.team2813.frc.subsystems.*;
 import com.team2813.lib.solenoid.SolenoidGroup;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -39,6 +36,7 @@ public class RobotContainer
     private final Shooter shooter = new Shooter();
     private final Magazine magazine = new Magazine();
     private final Climber climber = new Climber();
+    private final Intake intake = new Intake();
     private final ExampleCommand autoCommand = new ExampleCommand(exampleSubsystem);
     
     
@@ -62,6 +60,26 @@ public class RobotContainer
     {
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
+        INTAKE_PISTONS_BUTTON.whenPressed(intake::toggle, intake);
+
+        INTAKE_BUTTON.whenHeld(new ParallelCommandGroup(
+                new InstantCommand(intake::intake, intake),
+                new InstantCommand(magazine::intake, magazine)
+        ));
+        INTAKE_BUTTON.whenReleased(new ParallelCommandGroup(
+                new InstantCommand(intake::stop, intake),
+                new InstantCommand(magazine::stop, intake)
+        ));
+
+        OUTTAKE_BUTTON.whenHeld(new ParallelCommandGroup(
+                new InstantCommand(intake::outtake, intake),
+                new InstantCommand(magazine::outtake, magazine)
+        ));
+        OUTTAKE_BUTTON.whenReleased(new ParallelCommandGroup(
+                new InstantCommand(intake::stop, intake),
+                new InstantCommand(magazine::stop, intake)
+        ));
+
         SPOOL_BUTTON.whenPressed(new SequentialCommandGroup(
                 new InstantCommand(() -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
                 new WaitUntilCommand(() -> (MANUAL_SHOOTER_BUTTON.get() || LOW_SHOOTER_BUTTON.get()))
@@ -81,6 +99,11 @@ public class RobotContainer
 
         EXTEND_BUTTON.whenPressed(() -> climber.setPosition(Climber.Position.EXTENDED), climber);
 
+        MID_CLIMB_BUTTON.whenPressed(new SequentialCommandGroup(
+                new InstantCommand(intake::deploy, intake),
+                new ClimberRetractCommand(climber)
+        ));
+
         RISE_UP_BUTTON.whenPressed(new SequentialCommandGroup(
                 new ParallelCommandGroup(
                         new LockFunctionCommand(climber::positionReached, () -> climber.setPosition(Climber.Position.RISE_POS), climber),
@@ -89,7 +112,7 @@ public class RobotContainer
                 new LockFunctionCommand(climber::positionReached, () -> climber.setPosition(Climber.Position.NEXT_BAR), climber),
                 new InstantCommand(()-> climber.setPistons(SolenoidGroup.PistonState.RETRACTED), climber),
                 new WaitCommand(0.75),
-                new RetractCommand(climber)
+                new ClimberRetractCommand(climber)
         ));
     }
     

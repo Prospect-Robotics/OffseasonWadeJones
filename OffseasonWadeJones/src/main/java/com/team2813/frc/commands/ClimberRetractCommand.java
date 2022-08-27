@@ -1,17 +1,17 @@
-package com.team2813.frc.commands.util;
+package com.team2813.frc.commands;
 
 import com.team2813.frc.subsystems.Climber;
 import com.team2813.lib.motors.ControlMode;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class RetractCommand extends CommandBase {
+public class ClimberRetractCommand extends CommandBase {
 
     private final Climber climberSubsystem;
 
     private double timeStart;
 
-    public RetractCommand(Climber climberSubsystem) {
+    public ClimberRetractCommand(Climber climberSubsystem) {
         this.climberSubsystem = climberSubsystem;
         addRequirements(climberSubsystem);
     }

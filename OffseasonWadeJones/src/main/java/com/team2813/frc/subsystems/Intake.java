@@ -38,12 +38,12 @@ public class Intake extends SubsystemBase {
         }
     }
 
-    public void deploy() {
-        pistons.set(SolenoidGroup.PistonState.EXTENDED);
+    public void toggle() {
+        pistons.toggle();
     }
 
-    public void retract() {
-        pistons.set(SolenoidGroup.PistonState.RETRACTED);
+    public void deploy() {
+        pistons.set(SolenoidGroup.PistonState.EXTENDED);
     }
 
     public void intake() {
