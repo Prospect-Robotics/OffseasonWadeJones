@@ -1,133 +1,60 @@
-package com.team2813.frc2022.subsystems;
+package com.team2813.frc.subsystems;
 
-import com.team2813.lib.actions.Action;
-import com.team2813.lib.actions.FunctionAction;
-import com.team2813.lib.actions.SeriesAction;
-import com.team2813.lib.actions.WaitAction;
-import com.team2813.lib.config.MotorConfigs;
-import com.team2813.lib.controls.Button;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.team2813.lib.motors.ControlMode;
 import com.team2813.lib.motors.TalonFXWrapper;
-import com.team2813.lib.motors.interfaces.ControlMode;
-import com.team2813.lib.solenoid.PistonSolenoid;
+import com.team2813.lib.solenoid.SolenoidGroup;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static com.team2813.frc2022.subsystems.Subsystems.LOOPER;
-import static com.team2813.frc2022.subsystems.Subsystems.MAGAZINE;
+import static com.team2813.frc.Constants.*;
 
-public class Intake extends Subsystem {
+public class Intake extends SubsystemBase {
 
-    // Motor Controllers
-    private final TalonFXWrapper INTAKE_MOTOR;
+    private final TalonFXWrapper intakeMotor = new TalonFXWrapper(INTAKE_ID, TalonFXInvertType.CounterClockwise);
 
-    // Controllers
-    private static final Button INTAKE_IN_BUTTON = SubsystemControlsConfig.getIntakeInButton();
-    private static final Button INTAKE_OUT_BUTTON = SubsystemControlsConfig.getIntakeOutButton();
+    private final SolenoidGroup pistons = new SolenoidGroup(PCM_ID, PneumaticsModuleType.CTREPCM, 2, 3);
 
-    private final PistonSolenoid PISTONS;
-
-    private Demand demand = Demand.OFF;
     private boolean deployed;
 
     public Intake() {
-        INTAKE_MOTOR = (TalonFXWrapper) MotorConfigs.talons.get("intake");
-        PISTONS = new PistonSolenoid(14, PneumaticsModuleType.CTREPCM, 2, 3);
+
     }
 
     @Override
-    public void outputTelemetry() {
+    public void periodic() {
+        deployed = pistons.get().getAsBoolean();
         SmartDashboard.putBoolean("Intake Deployed", deployed);
     }
 
-    @Override
-    public void teleopControls() {
-        INTAKE_IN_BUTTON.whenPressedReleased(() -> {
-            Action intakeAction = new SeriesAction(
-                    new FunctionAction(() -> setDeployed(true), true),
-                    new WaitAction(0.4),
-                    new FunctionAction(() ->setIntake(Demand.IN), true),
-                    new FunctionAction(() -> MAGAZINE.setMagDemand(Magazine.MagDemand.IN), true),
-                    new FunctionAction(() -> MAGAZINE.setKickerDemand(Magazine.KickerDemand.IN), true)
-            );
-            LOOPER.addAction(intakeAction);
-        }, () -> {
-            setIntake(Demand.OFF);
-            MAGAZINE.setMagDemand(Magazine.MagDemand.OFF);
-            MAGAZINE.setKickerDemand(Magazine.KickerDemand.OFF);
-            setDeployed(false);
-        });
+    private enum IntakeDemand {
+        IN(0.85), OFF(0), OUT(-0.85);
 
-        INTAKE_OUT_BUTTON.whenPressedReleased(() -> {
-            MAGAZINE.setMagDemand(Magazine.MagDemand.OUT);
-            MAGAZINE.setKickerDemand(Magazine.KickerDemand.OUT);
-        }, () -> {
-            MAGAZINE.setMagDemand(Magazine.MagDemand.OFF);
-            MAGAZINE.setKickerDemand(Magazine.KickerDemand.OFF);
-        });
-    }
+        final double percent;
 
-    public void autoIntake(boolean on) {
-        setDeployed(on);
-        if (on) {
-            double timeStart = Timer.getFPGATimestamp();
-            double dt = Timer.getFPGATimestamp() - timeStart;
-            while (dt < 0.4) {
-                dt = Timer.getFPGATimestamp() - timeStart;
-                // wait...
-            }
-            setIntake(Demand.IN);
-            MAGAZINE.setMagDemand(Magazine.MagDemand.IN);
-            MAGAZINE.setKickerDemand(Magazine.KickerDemand.OUT);
-        }
-        else {
-            setIntake(Demand.OFF);
-            MAGAZINE.setMagDemand(Magazine.MagDemand.OFF);
-            MAGAZINE.setKickerDemand(Magazine.KickerDemand.OFF);
-            setDeployed(false);
-        }
-    }
-
-    @Override
-    public void onEnabledStart(double timestamp) {
-
-    }
-
-    @Override
-    public void onEnabledLoop(double timestamp) {
-
-    }
-
-    @Override
-    public void onEnabledStop(double timestamp) {
-
-    }
-
-    @Override
-    protected void writePeriodicOutputs() {
-        INTAKE_MOTOR.set(ControlMode.DUTY_CYCLE, demand.percent);
-    }
-
-    public enum Demand {
-        IN(0.85), OFF(0);
-
-        double percent;
-
-        Demand(double percent) {
+        IntakeDemand(double percent) {
             this.percent = percent;
         }
     }
 
-    @Override
-    protected void readPeriodicInputs() {
-        deployed = PISTONS.get().value;
+    public void deploy() {
+        pistons.set(SolenoidGroup.PistonState.EXTENDED);
     }
 
-    public void setIntake(Demand demand) {
-        this.demand = demand;
+    public void retract() {
+        pistons.set(SolenoidGroup.PistonState.RETRACTED);
     }
 
-    public void setDeployed(boolean deployed) {
-        PISTONS.set(deployed ? PistonSolenoid.PistonState.EXTENDED : PistonSolenoid.PistonState.RETRACTED);
+    public void intake() {
+        intakeMotor.set(ControlMode.DUTY_CYCLE, IntakeDemand.IN.percent);
+    }
+
+    public void outtake() {
+        intakeMotor.set(ControlMode.DUTY_CYCLE, IntakeDemand.OUT.percent);
+    }
+
+    public void stop() {
+        intakeMotor.set(ControlMode.DUTY_CYCLE, IntakeDemand.OFF.percent);
     }
 }

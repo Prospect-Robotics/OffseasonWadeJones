@@ -21,6 +21,9 @@ public final class Constants {
 
     // CAN IDs
 
+    // Intake
+    public static final int INTAKE_ID = 6;
+
     // Shooter
     public static final int FLYWHEEL_MASTER_ID = 7;
     public static final int FLYWHEEL_FOLLOWER_ID = 8;
@@ -29,6 +32,12 @@ public final class Constants {
     public static final int MAGAZINE_MASTER_ID = 9;
     public static final int MAGAZINE_FOLLOWER_ID = 10;
     public static final int KICKER_ID = 11;
+
+    // Climber
+    public static final int CLIMBER_ID = 12;
+
+    // Misc
+    public static final int PCM_ID = 14;
 
     // Drive Constants
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);

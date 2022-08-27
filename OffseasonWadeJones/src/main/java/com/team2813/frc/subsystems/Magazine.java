@@ -47,7 +47,7 @@ public class Magazine extends SubsystemBase {
     private enum MagDemand {
         IN(0.2), LOW(0.5), OFF(0), OUT(-0.2), SHOOT(0.125);
 
-        double percent;
+        final double percent;
 
         MagDemand(double percent) {
             this.percent = percent;
@@ -57,7 +57,7 @@ public class Magazine extends SubsystemBase {
     private enum KickerDemand {
         IN(0.3),  OFF(0), OUT(-0.4);
 
-        double percent;
+        final double percent;
 
         KickerDemand(double percent) {
             this.percent = percent;

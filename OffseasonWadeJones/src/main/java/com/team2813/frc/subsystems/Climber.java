@@ -6,12 +6,14 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.team2813.lib.solenoid.SolenoidGroup;
 
+import static com.team2813.frc.Constants.*;
+
 public class Climber extends Subsystem1d<Climber.Position> {
 
-    private final SolenoidGroup pistons = new SolenoidGroup(14, PneumaticsModuleType.CTREPCM, 0, 1);
+    private final SolenoidGroup pistons = new SolenoidGroup(PCM_ID, PneumaticsModuleType.CTREPCM, 0, 1);
 
     public Climber() {
-        super(new TalonFXWrapper(12, TalonFXInvertType.Clockwise));
+        super(new TalonFXWrapper(CLIMBER_ID, TalonFXInvertType.Clockwise));
 
         motor.configPID(0.4, 0, 0);
         motor.configMotionMagic(30000, 30000); // max vel in ticks/100ms

@@ -59,6 +59,10 @@ public class SolenoidGroup {
             this.value = value;
         }
 
+        public boolean getAsBoolean() {
+            return value;
+        }
+
         private static PistonState from(boolean b) {
             return b ? EXTENDED : RETRACTED;
         }
