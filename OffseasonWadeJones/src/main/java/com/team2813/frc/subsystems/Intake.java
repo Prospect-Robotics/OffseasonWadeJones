@@ -16,15 +16,13 @@ public class Intake extends SubsystemBase {
 
     private final SolenoidGroup pistons = new SolenoidGroup(PCM_ID, PneumaticsModuleType.CTREPCM, 2, 3);
 
-    private boolean deployed;
-
     public Intake() {
 
     }
 
     @Override
     public void periodic() {
-        deployed = pistons.get().getAsBoolean();
+        boolean deployed = pistons.get().getAsBoolean();
         SmartDashboard.putBoolean("Intake Deployed", deployed);
     }
 
