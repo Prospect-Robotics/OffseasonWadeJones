@@ -5,6 +5,7 @@
 
 package com.team2813.frc;
 
+import com.team2813.frc.commands.DefaultDriveCommand;
 import com.team2813.frc.commands.DefaultShooterCommand;
 import com.team2813.frc.commands.ExampleCommand;
 import com.team2813.frc.commands.util.LockFunctionCommand;
@@ -37,12 +38,22 @@ public class RobotContainer
     private final Magazine magazine = new Magazine();
     private final Climber climber = new Climber();
     private final Intake intake = new Intake();
+    private final Drive drive = new Drive();
     private final ExampleCommand autoCommand = new ExampleCommand(exampleSubsystem);
+
+    private final XboxController controller = new XboxController(0);
     
     
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
+        drive.setDefaultCommand(new DefaultDriveCommand(
+                () -> -controller.getRightTriggerAxis(),
+                () -> -controller.getLeftTriggerAxis(),
+                () -> -controller.getLeftX(),
+                controller::getXButtonPressed,
+                drive
+        ));
         shooter.setDefaultCommand(new DefaultShooterCommand(shooter));
 
         // Configure the button bindings
