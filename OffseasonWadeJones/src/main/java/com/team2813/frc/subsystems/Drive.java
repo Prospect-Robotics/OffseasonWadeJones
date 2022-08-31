@@ -1,5 +1,7 @@
 package com.team2813.frc.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.team2813.frc.util.Units2813;
 import com.team2813.lib.drive.DriveDemand;
@@ -29,6 +31,12 @@ public class Drive extends SubsystemBase {
     public Drive() {
         leftMotor.addFollower(LEFT_DRIVE_FOLLOWER_ID, TalonFXInvertType.FollowMaster);
         rightMotor.addFollower(RIGHT_DRIVE_FOLLOWER_ID, TalonFXInvertType.FollowMaster);
+
+        leftMotor.setNeutralMode(NeutralMode.Brake);
+        rightMotor.setNeutralMode(NeutralMode.Brake);
+
+        leftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_21_FeedbackIntegrated, 125);
+        rightMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_21_FeedbackIntegrated, 125);
 
         leftMotor.configPID(kP, kI, kD);
         rightMotor.configPID(kP, kI, kD);

@@ -8,7 +8,7 @@ package com.team2813.lib.drive;
 public class CurvatureDrive {
     private ArcadeDrive arcadeDrive;
 
-    public CurvatureDrive(double deadzone) {
+    public CurvatureDrive() {
         arcadeDrive = new ArcadeDrive();
     }
 
