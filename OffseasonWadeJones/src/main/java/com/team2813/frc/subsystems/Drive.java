@@ -16,7 +16,7 @@ import static com.team2813.frc.Constants.*;
 
 public class Drive extends SubsystemBase {
 
-    public static final double MAX_VELOCITY = 0;
+    public static final double MAX_VELOCITY = 6380.0 / 60.0 * DRIVE_GEAR_RATIO * WHEEL_CIRCUMFERENCE;
 
     private final TalonFXWrapper leftMotor = new TalonFXWrapper(LEFT_DRIVE_MASTER_ID, TalonFXInvertType.Clockwise);
     private final TalonFXWrapper rightMotor = new TalonFXWrapper(RIGHT_DRIVE_MASTER_ID, TalonFXInvertType.CounterClockwise);
