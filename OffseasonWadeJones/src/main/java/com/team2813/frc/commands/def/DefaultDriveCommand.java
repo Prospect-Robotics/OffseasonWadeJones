@@ -1,4 +1,4 @@
-package com.team2813.frc.commands;
+package com.team2813.frc.commands.def;
 
 import com.team2813.frc.subsystems.Drive;
 import com.team2813.lib.drive.CurvatureDrive;

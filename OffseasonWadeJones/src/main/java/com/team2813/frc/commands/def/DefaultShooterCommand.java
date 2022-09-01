@@ -1,4 +1,4 @@
-package com.team2813.frc.commands;
+package com.team2813.frc.commands.def;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.team2813.frc.subsystems.Shooter;

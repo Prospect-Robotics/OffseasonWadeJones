@@ -5,8 +5,8 @@
 
 package com.team2813.frc;
 
-import com.team2813.frc.commands.DefaultDriveCommand;
-import com.team2813.frc.commands.DefaultShooterCommand;
+import com.team2813.frc.commands.def.DefaultDriveCommand;
+import com.team2813.frc.commands.def.DefaultShooterCommand;
 import com.team2813.frc.commands.ExampleCommand;
 import com.team2813.frc.commands.util.LockFunctionCommand;
 import com.team2813.frc.commands.ClimberRetractCommand;
