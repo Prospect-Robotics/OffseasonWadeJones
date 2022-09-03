@@ -48,8 +48,8 @@ public class RobotContainer
     public RobotContainer()
     {
         drive.setDefaultCommand(new DefaultDriveCommand(
-                () -> -controller.getRightTriggerAxis(),
-                () -> -controller.getLeftTriggerAxis(),
+                controller::getRightTriggerAxis,
+                controller::getLeftTriggerAxis,
                 () -> -controller.getLeftX(),
                 controller::getXButtonPressed,
                 drive
@@ -79,7 +79,7 @@ public class RobotContainer
         ));
         INTAKE_BUTTON.whenReleased(new ParallelCommandGroup(
                 new InstantCommand(intake::stop, intake),
-                new InstantCommand(magazine::stop, intake)
+                new InstantCommand(magazine::stop, magazine)
         ));
 
         OUTTAKE_BUTTON.whenHeld(new ParallelCommandGroup(
@@ -88,7 +88,7 @@ public class RobotContainer
         ));
         OUTTAKE_BUTTON.whenReleased(new ParallelCommandGroup(
                 new InstantCommand(intake::stop, intake),
-                new InstantCommand(magazine::stop, intake)
+                new InstantCommand(magazine::stop, magazine)
         ));
 
         SPOOL_BUTTON.whenPressed(new SequentialCommandGroup(
@@ -97,14 +97,16 @@ public class RobotContainer
         ));
 
         MANUAL_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
-                new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
-                new InstantCommand(magazine::shoot, magazine)
+                new InstantCommand(() -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
+                new InstantCommand(magazine::shoot, magazine),
+                new WaitUntilCommand(() -> !MANUAL_SHOOTER_BUTTON.get())
         ));
         MANUAL_SHOOTER_BUTTON.whenReleased(magazine::stop, magazine);
 
         LOW_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
                 new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND), shooter),
-                new InstantCommand(magazine::lowShoot, magazine)
+                new InstantCommand(magazine::lowShoot, magazine),
+                new WaitUntilCommand(() -> !LOW_SHOOTER_BUTTON.get())
         ));
         LOW_SHOOTER_BUTTON.whenReleased(magazine::stop, magazine);
 
@@ -116,10 +118,8 @@ public class RobotContainer
         ));
 
         RISE_UP_BUTTON.whenPressed(new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                        new LockFunctionCommand(climber::positionReached, () -> climber.setPosition(Climber.Position.RISE_POS), climber),
-                        new InstantCommand(() -> climber.setPistons(SolenoidGroup.PistonState.EXTENDED), climber)
-                ),
+                new InstantCommand(() -> climber.setPistons(SolenoidGroup.PistonState.EXTENDED), climber),
+                new LockFunctionCommand(climber::positionReached, () -> climber.setPosition(Climber.Position.RISE_POS), climber),
                 new LockFunctionCommand(climber::positionReached, () -> climber.setPosition(Climber.Position.NEXT_BAR), climber),
                 new InstantCommand(()-> climber.setPistons(SolenoidGroup.PistonState.RETRACTED), climber),
                 new WaitCommand(0.75),

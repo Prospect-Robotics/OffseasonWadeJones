@@ -44,6 +44,10 @@ public class Intake extends SubsystemBase {
         pistons.set(SolenoidGroup.PistonState.EXTENDED);
     }
 
+    public void retract() {
+        pistons.set(SolenoidGroup.PistonState.RETRACTED);
+    }
+
     public void intake() {
         intakeMotor.set(ControlMode.DUTY_CYCLE, IntakeDemand.IN.percent);
     }
