@@ -33,8 +33,12 @@ public class Climber extends Subsystem1d<Climber.Position> {
         return Math.abs(currentPosition.getPos() - motor.getEncoderPosition()) < 0.05;
     }
 
-    public void setPistons(SolenoidGroup.PistonState pistonState) {
-        pistons.set(pistonState);
+    public void extendPistons() {
+        pistons.set(SolenoidGroup.PistonState.EXTENDED);
+    }
+
+    public void retractPistons() {
+        pistons.set(SolenoidGroup.PistonState.RETRACTED);
     }
 
     public enum Position implements Subsystem1d.Position {

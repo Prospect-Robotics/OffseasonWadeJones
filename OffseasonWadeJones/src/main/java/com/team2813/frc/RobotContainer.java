@@ -118,10 +118,10 @@ public class RobotContainer
         ));
 
         RISE_UP_BUTTON.whenPressed(new SequentialCommandGroup(
-                new InstantCommand(() -> climber.setPistons(SolenoidGroup.PistonState.EXTENDED), climber),
+                new InstantCommand(climber::extendPistons, climber),
                 new LockFunctionCommand(climber::positionReached, () -> climber.setPosition(Climber.Position.RISE_POS), climber),
                 new LockFunctionCommand(climber::positionReached, () -> climber.setPosition(Climber.Position.NEXT_BAR), climber),
-                new InstantCommand(()-> climber.setPistons(SolenoidGroup.PistonState.RETRACTED), climber),
+                new InstantCommand(climber::retractPistons, climber),
                 new WaitCommand(0.75),
                 new ClimberRetractCommand(climber)
         ));
