@@ -91,8 +91,8 @@ public class Drive extends SubsystemBase {
         if (!Robot.isAuto) speedDemand = new DriveDemand(speedDemand.getLeft() * MAX_VELOCITY, speedDemand.getRight() * MAX_VELOCITY); // m/s
         DriveDemand motorDemand = Units2813.dtDemandToMotorDemand(speedDemand); // rpm
 
-        leftMotor.set(ControlMode.VELOCITY, motorDemand.getLeft(), feedforward.calculate(speedDemand.getLeft()) / 12);
-        rightMotor.set(ControlMode.VELOCITY, motorDemand.getRight(), feedforward.calculate(speedDemand.getRight()) / 12);
+        leftMotor.set(ControlMode.VELOCITY, motorDemand.getLeft(), feedforward.calculate(speedDemand.getLeft()));
+        rightMotor.set(ControlMode.VELOCITY, motorDemand.getRight(), feedforward.calculate(speedDemand.getRight()));
     }
 
     public void drive(DriveDemand driveDemand) {
