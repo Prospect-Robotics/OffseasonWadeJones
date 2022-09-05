@@ -24,7 +24,7 @@ public class ClimberRetractCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return ((Timer.getFPGATimestamp() - timeStart) > 0.25) && (climberSubsystem.getMotorVelocity() < 0.5);
+        return ((Timer.getFPGATimestamp() - timeStart) > 0.25) && (climberSubsystem.getMotorVelocity() == 0);
     }
 
     @Override

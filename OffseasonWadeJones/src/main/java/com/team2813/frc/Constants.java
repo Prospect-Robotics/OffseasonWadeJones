@@ -51,7 +51,7 @@ public final class Constants {
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double DRIVE_GEAR_RATIO = 1 / 7.64;
-    public static final double TRACKWIDTH = Units.inchesToMeters(0); // meters
+    public static final double TRACKWIDTH = Units.inchesToMeters(28.5); // meters
 
     // Shooter Constants
     public static final double FLYWHEEL_UPDUCTION = 3.0 / 2.0;

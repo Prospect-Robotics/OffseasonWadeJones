@@ -70,7 +70,7 @@ public class TalonFXWrapper extends TalonFX implements Motor {
 
     @Override
     public double getEncoderPosition() {
-        return getSelectedSensorPosition();
+        return Units2813.ticksToMotorRevs(getSelectedSensorPosition(), 2048);
     }
 
     @Override

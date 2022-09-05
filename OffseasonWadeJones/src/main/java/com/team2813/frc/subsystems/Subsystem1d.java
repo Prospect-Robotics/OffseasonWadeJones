@@ -21,6 +21,8 @@ public class Subsystem1d<P extends Subsystem1d.Position> extends SubsystemBase {
         motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 100);
         motor.set(ControlMode.DUTY_CYCLE, 0);
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+        zeroSensors();
     }
 
     public Subsystem1d(TalonFXWrapper motor) {
@@ -28,6 +30,8 @@ public class Subsystem1d<P extends Subsystem1d.Position> extends SubsystemBase {
         motor.setStatusFramePeriod(StatusFrameEnhanced.Status_21_FeedbackIntegrated, 125);
         motor.set(ControlMode.DUTY_CYCLE, 0);
         motor.setNeutralMode(NeutralMode.Brake);
+
+        zeroSensors();
     }
 
     public void zeroSensors() {
