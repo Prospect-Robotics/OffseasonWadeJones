@@ -23,14 +23,6 @@ public class Limelight {
         return instance;
     }
 
-    public double getSteer() {
-        if (Math.abs(values.getTx()) > 0.5) {
-            double sign = Math.abs(values.getTx()) / values.getTx();
-            return (((values.getTx()) / 29.8) * kP * MAX_CORRECTION_STEER_SPEED + (sign * MIN_CORRECTION_STEER_SPEED));
-        }
-        return 0;
-    }
-
     public double calculateHorizontalDistance() {
         double angle = Math.toRadians(MOUNT_ANGLE + values.getTy() + 1); // adding offset for washers
         return Units.inchesToMeters(((TARGET_HEIGHT - MOUNT_HEIGHT) / Math.tan(angle)) + 26.5);

@@ -26,7 +26,7 @@ public class Robot extends TimedRobot
     
     public static RobotContainer ROBOT_CONTAINER;
 
-    static final Lightshow LIGHTSHOW = new Lightshow(CANIFIER_ID);
+    public static final Lightshow LIGHTSHOW = new Lightshow(CANIFIER_ID);
 
     public static boolean isAuto = false;
     
