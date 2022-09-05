@@ -5,9 +5,12 @@
 
 package com.team2813.frc;
 
+import com.team2813.frc.util.Lightshow;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import static com.team2813.frc.Constants.*;
 
 
 
@@ -22,6 +25,8 @@ public class Robot extends TimedRobot
     private Command autonomousCommand;
     
     private RobotContainer robotContainer;
+
+    static final Lightshow LIGHTSHOW = new Lightshow(CANIFIER_ID);
     
     
     /**
@@ -57,7 +62,9 @@ public class Robot extends TimedRobot
     
     /** This method is called once each time the robot enters Disabled mode. */
     @Override
-    public void disabledInit() {}
+    public void disabledInit() {
+        LIGHTSHOW.setLight(Lightshow.Light.DISABLED);
+    }
     
     
     @Override
@@ -68,6 +75,8 @@ public class Robot extends TimedRobot
     @Override
     public void autonomousInit()
     {
+        LIGHTSHOW.setLight(Lightshow.Light.AUTONOMOUS);
+
         autonomousCommand = robotContainer.getAutonomousCommand();
         
         // schedule the autonomous command (example)
@@ -86,6 +95,8 @@ public class Robot extends TimedRobot
     @Override
     public void teleopInit()
     {
+        LIGHTSHOW.setLight(Lightshow.Light.ENABLED);
+
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove

@@ -11,7 +11,7 @@ import com.team2813.frc.commands.ExampleCommand;
 import com.team2813.frc.commands.util.LockFunctionCommand;
 import com.team2813.frc.commands.ClimberRetractCommand;
 import com.team2813.frc.subsystems.*;
-import com.team2813.lib.solenoid.SolenoidGroup;
+import com.team2813.frc.util.Lightshow;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.*;
 
 import static com.team2813.frc.Constants.*;
 import static com.team2813.frc.Controls.*;
+import static com.team2813.frc.Robot.*;
 
 
 
@@ -92,7 +93,9 @@ public class RobotContainer
         ));
 
         SPOOL_BUTTON.whenPressed(new SequentialCommandGroup(
-                new InstantCommand(() -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
+                new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
                 new WaitUntilCommand(() -> (MANUAL_SHOOTER_BUTTON.get() || LOW_SHOOTER_BUTTON.get()))
         ));
 
@@ -101,16 +104,27 @@ public class RobotContainer
                 new InstantCommand(magazine::shoot, magazine),
                 new WaitUntilCommand(() -> !MANUAL_SHOOTER_BUTTON.get())
         ));
-        MANUAL_SHOOTER_BUTTON.whenReleased(magazine::stop, magazine);
+        MANUAL_SHOOTER_BUTTON.whenReleased(new ParallelCommandGroup(
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.ENABLED)),
+                new InstantCommand(magazine::stop, magazine)
+        ));
 
         LOW_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
                 new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND), shooter),
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
                 new InstantCommand(magazine::lowShoot, magazine),
                 new WaitUntilCommand(() -> !LOW_SHOOTER_BUTTON.get())
         ));
-        LOW_SHOOTER_BUTTON.whenReleased(magazine::stop, magazine);
+        LOW_SHOOTER_BUTTON.whenReleased(new ParallelCommandGroup(
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.ENABLED)),
+                new InstantCommand(magazine::stop, magazine)
+        ));
 
-        EXTEND_BUTTON.whenPressed(() -> climber.setPosition(Climber.Position.EXTENDED), climber);
+        EXTEND_BUTTON.whenPressed(new SequentialCommandGroup(
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.CLIMBING)),
+                new InstantCommand(() -> climber.setPosition(Climber.Position.EXTENDED), climber)
+        ));
 
         MID_CLIMB_BUTTON.whenPressed(new SequentialCommandGroup(
                 new InstantCommand(intake::deploy, intake),

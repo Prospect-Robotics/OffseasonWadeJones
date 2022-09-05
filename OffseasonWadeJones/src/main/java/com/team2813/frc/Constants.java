@@ -45,6 +45,7 @@ public final class Constants {
     // Misc
     public static final int PIGEON_ID = 13;
     public static final int PCM_ID = 14;
+    public static final int CANIFIER_ID = 15;
 
     // Drive Constants
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
