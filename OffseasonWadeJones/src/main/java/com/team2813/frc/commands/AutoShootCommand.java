@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import static com.team2813.frc.Constants.*;
-import static com.team2813.frc.Robot.*;
+import static com.team2813.frc.Robot.LIGHTSHOW;
 
 public class AutoShootCommand extends SequentialCommandGroup {
 

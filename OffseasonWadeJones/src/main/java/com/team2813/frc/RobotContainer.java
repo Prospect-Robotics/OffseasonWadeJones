@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.*;
 
 import static com.team2813.frc.Constants.*;
 import static com.team2813.frc.Controls.*;
-import static com.team2813.frc.Robot.*;
+import static com.team2813.frc.Robot.LIGHTSHOW;
 
 
 
