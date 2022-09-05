@@ -60,6 +60,23 @@ public class RobotContainer
         // Configure the button bindings
         configureButtonBindings();
     }
+
+    // Package-private subsystem getters
+    Drive getDrive() {
+        return drive;
+    }
+
+    Intake getIntake() {
+        return intake;
+    }
+
+    Magazine getMagazine() {
+        return magazine;
+    }
+
+    Shooter getShooter() {
+        return shooter;
+    }
     
     
     /**

@@ -24,9 +24,11 @@ public class Robot extends TimedRobot
 {
     private Command autonomousCommand;
     
-    private RobotContainer robotContainer;
+    public static RobotContainer ROBOT_CONTAINER;
 
     static final Lightshow LIGHTSHOW = new Lightshow(CANIFIER_ID);
+
+    public static boolean isAuto = false;
     
     
     /**
@@ -38,7 +40,7 @@ public class Robot extends TimedRobot
     {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
-        robotContainer = new RobotContainer();
+        ROBOT_CONTAINER = new RobotContainer();
     }
     
     
@@ -75,9 +77,11 @@ public class Robot extends TimedRobot
     @Override
     public void autonomousInit()
     {
+        isAuto = true;
+
         LIGHTSHOW.setLight(Lightshow.Light.AUTONOMOUS);
 
-        autonomousCommand = robotContainer.getAutonomousCommand();
+        autonomousCommand = ROBOT_CONTAINER.getAutonomousCommand();
         
         // schedule the autonomous command (example)
         if (autonomousCommand != null)
@@ -95,6 +99,8 @@ public class Robot extends TimedRobot
     @Override
     public void teleopInit()
     {
+        isAuto = false;
+
         LIGHTSHOW.setLight(Lightshow.Light.ENABLED);
 
         // This makes sure that the autonomous stops running when

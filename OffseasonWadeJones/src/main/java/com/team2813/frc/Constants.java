@@ -51,6 +51,7 @@ public final class Constants {
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double DRIVE_GEAR_RATIO = 1 / 7.64;
+    public static final double TRACKWIDTH = Units.inchesToMeters(0); // meters
 
     // Shooter Constants
     public static final double FLYWHEEL_UPDUCTION = 3.0 / 2.0;
@@ -58,4 +59,8 @@ public final class Constants {
     public static final double DEFAULT_SHOOT_DEMAND = 250; // RPM
     public static final double MANUAL_SHOOT_DEMAND = 1900; // RPM
     public static final double LOW_SHOOT_DEMAND = 1500; // RPM
+
+    // Auto Constants
+    public static final double AUTO_MAX_VEL = 0.75;
+    public static final double AUTO_MAX_ACCEL = 2;
 }
