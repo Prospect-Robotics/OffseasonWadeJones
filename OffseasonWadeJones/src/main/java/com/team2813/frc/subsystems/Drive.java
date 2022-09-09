@@ -77,10 +77,10 @@ public class Drive extends SubsystemBase {
         SmartDashboard.putNumber("Current Heading (Degrees)", pigeon.getHeading());
 
         if (odometry != null) {
-            double leftRevolutions = Units2813.ticksToMotorRevs(leftMotor.getEncoderPosition(), 2048);
+            double leftRevolutions = leftMotor.getEncoderPosition();
             double leftDistance = Units2813.motorRevsToWheelRevs(leftRevolutions, DRIVE_GEAR_RATIO) * WHEEL_CIRCUMFERENCE;
 
-            double rightRevolutions = Units2813.ticksToMotorRevs(rightMotor.getEncoderPosition(), 2048);
+            double rightRevolutions = rightMotor.getEncoderPosition();
             double rightDistance = Units2813.motorRevsToWheelRevs(rightRevolutions, DRIVE_GEAR_RATIO) * WHEEL_CIRCUMFERENCE;
 
             odometry.update(getRotation(), leftDistance, rightDistance);

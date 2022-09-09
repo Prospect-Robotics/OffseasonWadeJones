@@ -21,7 +21,7 @@ public class AutoShootCommand extends SequentialCommandGroup {
         super(
                 new RotateCommand(limelight.getValues().getTx(), driveSubsystem),
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
-                new LockFunctionCommand(shooterSubsystem::isFlywheelReady, () -> shooterSubsystem.setFlywheelRPM(limelight.getShooterDemand()), shooterSubsystem),
+                new LockFunctionCommand(shooterSubsystem::isFlywheelReady, () -> shooterSubsystem.setFlywheelRPM(limelight.getFlywheelDemand()), shooterSubsystem),
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
                 new InstantCommand(magazineSubsystem::shoot, magazineSubsystem),
                 new WaitCommand(2),

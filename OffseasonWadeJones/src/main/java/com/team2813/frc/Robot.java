@@ -6,6 +6,7 @@
 package com.team2813.frc;
 
 import com.team2813.frc.util.Lightshow;
+import com.team2813.frc.util.Limelight;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -22,6 +23,8 @@ import static com.team2813.frc.Constants.*;
  */
 public class Robot extends TimedRobot
 {
+    private final Limelight limelight = Limelight.getInstance();
+
     private Command autonomousCommand;
     
     public static RobotContainer ROBOT_CONTAINER;
@@ -38,6 +41,8 @@ public class Robot extends TimedRobot
     @Override
     public void robotInit()
     {
+        limelight.setLights(false);
+
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         ROBOT_CONTAINER = new RobotContainer();
@@ -66,6 +71,7 @@ public class Robot extends TimedRobot
     @Override
     public void disabledInit() {
         LIGHTSHOW.setLight(Lightshow.Light.DISABLED);
+        limelight.setLights(false);
     }
     
     
@@ -80,6 +86,7 @@ public class Robot extends TimedRobot
         isAuto = true;
 
         LIGHTSHOW.setLight(Lightshow.Light.AUTONOMOUS);
+        limelight.setLights(true);
 
         autonomousCommand = ROBOT_CONTAINER.getAutonomousCommand();
         
@@ -129,5 +136,7 @@ public class Robot extends TimedRobot
     
     /** This method is called periodically during test mode. */
     @Override
-    public void testPeriodic() {}
+    public void testPeriodic() {
+        limelight.setLights(true); // done so that we can use test mode for limelight tuning
+    }
 }

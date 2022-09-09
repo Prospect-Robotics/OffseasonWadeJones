@@ -6,9 +6,6 @@ import edu.wpi.first.math.util.Units;
 public class Limelight {
 
     private LimelightValues values = new LimelightValues();
-    private final double kP = 0.875;
-    private static final double MAX_CORRECTION_STEER_SPEED = 0.7;
-    private static final double MIN_CORRECTION_STEER_SPEED = 0.05;
     private static final double MOUNT_ANGLE = 38; // degrees (this is mount angle without washers)
     private static final double MOUNT_HEIGHT = 27; // inches
     private static final double TARGET_HEIGHT = 104; // inches
@@ -28,7 +25,7 @@ public class Limelight {
         return Units.inchesToMeters(((TARGET_HEIGHT - MOUNT_HEIGHT) / Math.tan(angle)) + 26.5);
     }
 
-    public double getShooterDemand() { // returns in rpm
+    public double getFlywheelDemand() { // returns in rpm
         double distance = calculateHorizontalDistance();
         return -5444.444 + (6602.661 * distance) - (1606.313 * Math.pow(distance, 2)) + (134.8647 * Math.pow(distance, 3));
     }
