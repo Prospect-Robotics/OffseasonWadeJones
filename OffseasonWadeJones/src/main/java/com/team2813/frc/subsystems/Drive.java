@@ -93,7 +93,7 @@ public class Drive extends SubsystemBase {
         SmartDashboard.putNumber("Right Demand", speedDemand.getRight());
         DriveDemand motorDemand = Units2813.dtDemandToMotorDemand(speedDemand); // rpm
 
-        leftMotor.set(ControlMode.VELOCITY, motorDemand.getLeft(), feedforward.calculate(speedDemand.getLeft())/ 12);
+        leftMotor.set(ControlMode.VELOCITY, motorDemand.getLeft(), feedforward.calculate(speedDemand.getLeft()) / 12);
         rightMotor.set(ControlMode.VELOCITY, motorDemand.getRight(), feedforward.calculate(speedDemand.getRight()) / 12);
     }
 

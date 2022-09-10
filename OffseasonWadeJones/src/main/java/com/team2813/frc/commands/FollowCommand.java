@@ -15,8 +15,6 @@ import static com.team2813.frc.Constants.*;
 public class FollowCommand extends RamseteCommand {
 
     private static final RamseteController follower = new RamseteController();
-
-    private final Drive driveSubsystem;
     private final BiConsumer<Double, Double> speedsConsumer;
     private final PathPlannerTrajectory trajectory;
 
@@ -30,7 +28,6 @@ public class FollowCommand extends RamseteCommand {
                 driveSubsystem
         );
 
-        this.driveSubsystem = driveSubsystem;
         speedsConsumer = getSpeedsConsumer(driveSubsystem);
 
         trajectory = PathPlanner.loadPath(trajectoryName, AUTO_MAX_VEL, AUTO_MAX_ACCEL);
@@ -46,7 +43,6 @@ public class FollowCommand extends RamseteCommand {
                 driveSubsystem
         );
 
-        this.driveSubsystem = driveSubsystem;
         speedsConsumer = getSpeedsConsumer(driveSubsystem);
 
         trajectory = PathPlanner.loadPath(trajectoryName, AUTO_MAX_VEL, AUTO_MAX_ACCEL, reversed);
