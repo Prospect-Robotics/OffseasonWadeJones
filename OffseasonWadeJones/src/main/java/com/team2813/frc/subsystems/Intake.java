@@ -27,7 +27,7 @@ public class Intake extends SubsystemBase {
     }
 
     private enum IntakeDemand {
-        IN(0.85), OFF(0), OUT(-0.85);
+        IN(0.85), OFF(0), OUT(-0.50);
 
         final double percent;
 
