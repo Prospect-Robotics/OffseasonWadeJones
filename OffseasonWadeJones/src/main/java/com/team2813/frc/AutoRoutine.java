@@ -11,26 +11,27 @@ import static com.team2813.frc.Robot.ROBOT_CONTAINER;
 
 public enum AutoRoutine {
 
-    ZERO_BALL("0-ball", new SequentialCommandGroup(
+    ZERO_BALL_KNOCK("0-ball Knock", new SequentialCommandGroup(
             new AutoInitDriveCommand("ZeroBall", ROBOT_CONTAINER.getDrive()),
             new FollowCommand("ZeroBall", ROBOT_CONTAINER.getDrive())
     )),
-    ONE_BALL("1-ball", new SequentialCommandGroup(
+    ZERO_BALL_INTAKE("0-ball Intake", new SequentialCommandGroup(
+            new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
             new AutoInitDriveCommand("ZeroBall", ROBOT_CONTAINER.getDrive()),
             new FollowCommand("ZeroBall", ROBOT_CONTAINER.getDrive()),
-            new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
             new WaitCommand(1),
             new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine())
     )),
-    TWO_BALL("2-ball", new SequentialCommandGroup(
+    TWO_BALL_BASIC("2-ball Basic", new SequentialCommandGroup(
             new InstantCommand(() -> ROBOT_CONTAINER.getShooter().setFlywheelRPM(DEFAULT_SHOOT_DEMAND)),
-            new AutoInitDriveCommand("TwoBall_Intake_Ball", ROBOT_CONTAINER.getDrive()),
-            new FollowCommand("TwoBall_Intake_Ball", ROBOT_CONTAINER.getDrive()),
-            new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
-            new WaitCommand(1),
-            new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
-            new RotateCommand(180, ROBOT_CONTAINER.getDrive()),
-            new FollowCommand("TwoBall_Shoot_Balls", ROBOT_CONTAINER.getDrive()),
+            new AutoInitDriveCommand("TwoBall_Basic", true, ROBOT_CONTAINER.getDrive()),
+            new FollowCommand("TwoBall_Basic", true, ROBOT_CONTAINER.getDrive()),
+            new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())
+    )),
+    TWO_BALL_KNOCK("2-ball Knock", new SequentialCommandGroup(
+            new InstantCommand(() -> ROBOT_CONTAINER.getShooter().setFlywheelRPM(DEFAULT_SHOOT_DEMAND)),
+            new AutoInitDriveCommand("TwoBall_Knock", ROBOT_CONTAINER.getDrive()),
+            new FollowCommand("TwoBall_Knock", ROBOT_CONTAINER.getDrive()),
             new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())
     )),
     ROTATE_90_TEST("Rotate 90 Test", new RotateCommand(90, ROBOT_CONTAINER.getDrive())),
