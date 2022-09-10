@@ -29,11 +29,11 @@ public class Drive extends SubsystemBase {
     private final TalonFXWrapper rightMotor = new TalonFXWrapper(RIGHT_DRIVE_MASTER_ID, TalonFXInvertType.CounterClockwise);
     private final PigeonWrapper pigeon = new PigeonWrapper(PIGEON_ID);
 
-    private final double kP = 0.195;
-    private final double kI = 0;
-    private final double kD = 0.13;
+    private final double kP = 0.25;
+    private final double kI = 0.001;
+    private final double kD = 0;
 
-    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.70102, 0.044202, 0.006353);
+    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.86746, 0.04491, 0.0072141);
 
     private final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(TRACKWIDTH);
 
@@ -89,10 +89,12 @@ public class Drive extends SubsystemBase {
         }
 
         if (!Robot.isAuto) speedDemand = new DriveDemand(speedDemand.getLeft() * MAX_VELOCITY, speedDemand.getRight() * MAX_VELOCITY); // m/s
+        SmartDashboard.putNumber("Left Demand", speedDemand.getLeft());
+        SmartDashboard.putNumber("Right Demand", speedDemand.getRight());
         DriveDemand motorDemand = Units2813.dtDemandToMotorDemand(speedDemand); // rpm
 
-        leftMotor.set(ControlMode.VELOCITY, motorDemand.getLeft(), feedforward.calculate(speedDemand.getLeft()));
-        rightMotor.set(ControlMode.VELOCITY, motorDemand.getRight(), feedforward.calculate(speedDemand.getRight()));
+        leftMotor.set(ControlMode.VELOCITY, motorDemand.getLeft(), feedforward.calculate(speedDemand.getLeft())/ 12);
+        rightMotor.set(ControlMode.VELOCITY, motorDemand.getRight(), feedforward.calculate(speedDemand.getRight()) / 12);
     }
 
     public void drive(DriveDemand driveDemand) {

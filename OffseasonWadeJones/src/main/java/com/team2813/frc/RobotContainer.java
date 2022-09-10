@@ -51,7 +51,7 @@ public class RobotContainer
         drive.setDefaultCommand(new DefaultDriveCommand(
                 controller::getRightTriggerAxis,
                 controller::getLeftTriggerAxis,
-                () -> -controller.getLeftX(),
+                () -> controller.getLeftX(),
                 controller::getXButtonPressed,
                 drive
         ));
