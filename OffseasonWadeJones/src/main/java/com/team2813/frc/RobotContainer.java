@@ -7,11 +7,11 @@ package com.team2813.frc;
 
 import com.team2813.frc.commands.def.DefaultDriveCommand;
 import com.team2813.frc.commands.def.DefaultShooterCommand;
-import com.team2813.frc.commands.ExampleCommand;
 import com.team2813.frc.commands.util.LockFunctionCommand;
 import com.team2813.frc.commands.ClimberRetractCommand;
 import com.team2813.frc.subsystems.*;
 import com.team2813.frc.util.Lightshow;
+import com.team2813.frc.util.ShuffleboardData;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -34,13 +34,11 @@ import static com.team2813.frc.Robot.LIGHTSHOW;
 public class RobotContainer
 {
     // The robot's subsystems and commands are defined here...
-    private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     private final Shooter shooter = new Shooter();
     private final Magazine magazine = new Magazine();
     private final Climber climber = new Climber();
     private final Intake intake = new Intake();
     private final Drive drive = new Drive();
-    private final ExampleCommand autoCommand = new ExampleCommand(exampleSubsystem);
 
     private final XboxController controller = new XboxController(0);
     
@@ -166,7 +164,13 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        // An ExampleCommand will run in autonomous
-        return autoCommand;
+        AutoRoutine selectedRoutine = ShuffleboardData.routineChooser.getSelected();
+        return selectedRoutine.getCommand();
+    }
+
+    public void addAutoRoutines() {
+        for (AutoRoutine routine : AutoRoutine.values()) {
+            ShuffleboardData.routineChooser.addOption(routine.getName(), routine);
+        }
     }
 }
