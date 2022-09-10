@@ -31,7 +31,7 @@ public class Drive extends SubsystemBase {
 
     private final double kP = 0.25;
     private final double kI = 0.001;
-    private final double kD = 0;
+    private final double kD = 0.125;
 
     private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.86746, 0.04491, 0.0072141);
 

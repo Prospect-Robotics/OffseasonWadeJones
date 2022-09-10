@@ -51,8 +51,8 @@ public class RobotContainer
         drive.setDefaultCommand(new DefaultDriveCommand(
                 controller::getRightTriggerAxis,
                 controller::getLeftTriggerAxis,
-                () -> controller.getLeftX(),
-                controller::getXButtonPressed,
+                controller::getLeftX,
+                PIVOT_BUTTON::get,
                 drive
         ));
         shooter.setDefaultCommand(new DefaultShooterCommand(shooter));

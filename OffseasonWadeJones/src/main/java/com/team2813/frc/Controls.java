@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public final class Controls {
     // driver controls
     private static final PS4Controller DRIVER = new PS4Controller(0);
+    public static final JoystickButton PIVOT_BUTTON = new JoystickButton(DRIVER, 1);
     public static final JoystickButton MANUAL_SHOOTER_BUTTON = new JoystickButton(DRIVER, 2);
     public static final JoystickButton LOW_SHOOTER_BUTTON = new JoystickButton(DRIVER, 3);
 
