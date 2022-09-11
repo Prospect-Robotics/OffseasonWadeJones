@@ -1,6 +1,7 @@
 package com.team2813.frc.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.team2813.lib.motors.ControlMode;
 import com.team2813.lib.motors.TalonFXWrapper;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,6 +18,8 @@ public class Climber extends Subsystem1d<Climber.Position> {
 
         motor.configPID(0.4, 0, 0);
         motor.configMotionMagic(30000, 30000); // max vel in ticks/100ms
+
+        setPosition(Position.RETRACTED);
     }
 
     @Override

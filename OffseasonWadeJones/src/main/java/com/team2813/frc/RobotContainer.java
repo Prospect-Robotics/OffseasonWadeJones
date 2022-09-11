@@ -5,6 +5,7 @@
 
 package com.team2813.frc;
 
+import com.team2813.frc.commands.def.DefaultClimberCommand;
 import com.team2813.frc.commands.def.DefaultDriveCommand;
 import com.team2813.frc.commands.def.DefaultShooterCommand;
 import com.team2813.frc.commands.util.LockFunctionCommand;
@@ -54,6 +55,7 @@ public class RobotContainer
                 drive
         ));
         shooter.setDefaultCommand(new DefaultShooterCommand(shooter));
+        climber.setDefaultCommand(new DefaultClimberCommand(climber));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -138,7 +140,8 @@ public class RobotContainer
 
         EXTEND_BUTTON.whenPressed(new SequentialCommandGroup(
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.CLIMBING)),
-                new InstantCommand(() -> climber.setPosition(Climber.Position.EXTENDED), climber)
+                new InstantCommand(() -> climber.setPosition(Climber.Position.EXTENDED), climber),
+                new WaitUntilCommand(MID_CLIMB_BUTTON::get)
         ));
 
         MID_CLIMB_BUTTON.whenPressed(new SequentialCommandGroup(
