@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-import static com.team2813.frc.Constants.*;
 import static com.team2813.frc.Robot.LIGHTSHOW;
 
 public class AutoShootCommand extends SequentialCommandGroup {
@@ -26,8 +25,7 @@ public class AutoShootCommand extends SequentialCommandGroup {
                 new InstantCommand(magazineSubsystem::shoot, magazineSubsystem),
                 new WaitCommand(2),
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.AUTONOMOUS)),
-                new InstantCommand(magazineSubsystem::stop, magazineSubsystem),
-                new InstantCommand(() -> shooterSubsystem.setFlywheelRPM(DEFAULT_SHOOT_DEMAND))
+                new InstantCommand(magazineSubsystem::stop, magazineSubsystem)
         );
     }
 }
