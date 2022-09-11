@@ -2,11 +2,9 @@ package com.team2813.frc;
 
 import com.team2813.frc.commands.*;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-import static com.team2813.frc.Constants.*;
 import static com.team2813.frc.Robot.ROBOT_CONTAINER;
 
 public enum AutoRoutine {
@@ -23,13 +21,11 @@ public enum AutoRoutine {
             new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine())
     )),
     TWO_BALL_BASIC("2-ball Basic", new SequentialCommandGroup(
-            new InstantCommand(() -> ROBOT_CONTAINER.getShooter().setFlywheelRPM(DEFAULT_SHOOT_DEMAND)),
             new AutoInitDriveCommand("TwoBall_Basic", true, ROBOT_CONTAINER.getDrive()),
             new FollowCommand("TwoBall_Basic", true, ROBOT_CONTAINER.getDrive()),
             new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())
     )),
     TWO_BALL_KNOCK("2-ball Knock", new SequentialCommandGroup(
-            new InstantCommand(() -> ROBOT_CONTAINER.getShooter().setFlywheelRPM(DEFAULT_SHOOT_DEMAND)),
             new AutoInitDriveCommand("TwoBall_Knock", ROBOT_CONTAINER.getDrive()),
             new FollowCommand("TwoBall_Knock", ROBOT_CONTAINER.getDrive()),
             new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())

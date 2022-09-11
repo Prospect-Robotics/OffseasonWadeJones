@@ -6,6 +6,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.BiConsumer;
@@ -22,7 +23,7 @@ public class RotateCommand extends CommandBase {
     private final BiConsumer<Double, Double> speedsConsumer;
 
     private static final ProfiledPIDController thetaController = new ProfiledPIDController(
-            0,
+            2,
             0,
             0,
             new TrapezoidProfile.Constraints(Drive.MAX_ANGULAR_VELOCITY, Drive.MAX_ANGULAR_ACCELERATION)
@@ -54,6 +55,9 @@ public class RotateCommand extends CommandBase {
 
     @Override
     public void execute() {
+        double error = Math.toDegrees(setpoint) - driveSubsystem.getRotation().getDegrees();
+        SmartDashboard.putNumber("Rotation error (Degrees)", error);
+
         double angularVelocity = thetaController.calculate(driveSubsystem.getRotation().getRadians(), setpoint);
         ChassisSpeeds targetChassisSpeeds = new ChassisSpeeds(0, 0, angularVelocity);
         DifferentialDriveWheelSpeeds wheelSpeeds = driveSubsystem.getKinematics().toWheelSpeeds(targetChassisSpeeds);
@@ -63,7 +67,7 @@ public class RotateCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(setpoint - driveSubsystem.getRotation().getRadians()) <= Math.toRadians(2.5);
+        return Math.abs(setpoint - driveSubsystem.getRotation().getRadians()) <= Math.toRadians(1);
     }
 
     @Override
