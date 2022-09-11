@@ -113,6 +113,7 @@ public class Robot extends TimedRobot
         isAuto = false;
 
         LIGHTSHOW.setLight(Lightshow.Light.ENABLED);
+        //limelight.setLights(true);
 
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
@@ -140,7 +141,5 @@ public class Robot extends TimedRobot
     
     /** This method is called periodically during test mode. */
     @Override
-    public void testPeriodic() {
-        limelight.setLights(true); // done so that we can use test mode for limelight tuning
-    }
+    public void testPeriodic() {}
 }

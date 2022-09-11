@@ -14,7 +14,7 @@ public class Limelight {
         setStream(0);
     }
 
-    private static Limelight instance = new Limelight();
+    private static final Limelight instance = new Limelight();
 
     public static Limelight getInstance() {
         return instance;
@@ -27,7 +27,8 @@ public class Limelight {
 
     public double getFlywheelDemand() { // returns in rpm
         double distance = calculateHorizontalDistance();
-        return -5444.444 + (6602.661 * distance) - (1606.313 * Math.pow(distance, 2)) + (134.8647 * Math.pow(distance, 3));
+        return -414835.9 + (523050.4 * distance) - (260813.7 * Math.pow(distance, 2)) + (64555.86 * Math.pow(distance, 3)) -
+                (7930.151 * Math.pow(distance, 4)) + (386.8367 * Math.pow(distance, 5));
     }
 
     public void setLights(boolean enable) {
