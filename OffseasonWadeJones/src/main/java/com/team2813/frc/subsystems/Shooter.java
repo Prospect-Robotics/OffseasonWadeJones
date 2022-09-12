@@ -17,8 +17,10 @@ public class Shooter extends SubsystemBase
     private final TalonFXWrapper flywheelMotor = new TalonFXWrapper(FLYWHEEL_MASTER_ID, TalonFXInvertType.Clockwise);
     private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.86105, 0.18297, 0.045778);
     private final Limelight limelight = Limelight.getInstance();
+    private final double marginOfError = 100;
 
     private double demand;
+    private double snapshotSpeed = 0; // Speed of flywheel when the demand changes
 
     public Shooter() {
         flywheelMotor.addFollower(FLYWHEEL_FOLLOWER_ID, TalonFXInvertType.OpposeMaster);
@@ -27,7 +29,16 @@ public class Shooter extends SubsystemBase
     }
 
     public boolean isFlywheelReady() {
-        return Math.abs(Units2813.motorRevsToWheelRevs(flywheelMotor.getVelocity(), FLYWHEEL_UPDUCTION) - demand) < 50;
+        return Math.abs(Units2813.motorRevsToWheelRevs(flywheelMotor.getVelocity(), FLYWHEEL_UPDUCTION) - demand) < marginOfError;
+    }
+
+    public boolean isSpiking() {
+        if (snapshotSpeed < demand) {
+            return (demand - Units2813.motorRevsToWheelRevs(flywheelMotor.getVelocity(), FLYWHEEL_UPDUCTION)) < -marginOfError;
+        }
+        else {
+            return (demand - Units2813.motorRevsToWheelRevs(flywheelMotor.getVelocity(), FLYWHEEL_UPDUCTION)) > marginOfError;
+        }
     }
 
     @Override
@@ -43,6 +54,7 @@ public class Shooter extends SubsystemBase
 
     public void setFlywheelRPM(double demand) {
         this.demand = demand;
+        snapshotSpeed = Units2813.motorRevsToWheelRevs(flywheelMotor.getVelocity(), FLYWHEEL_UPDUCTION);
 
         double motorDemand = Units2813.wheelRevsToMotorRevs(demand, FLYWHEEL_UPDUCTION);
         flywheelMotor.set(ControlMode.VELOCITY, motorDemand, feedforward.calculate(motorDemand / 60) / 12);

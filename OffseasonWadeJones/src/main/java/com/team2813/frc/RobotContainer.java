@@ -111,7 +111,8 @@ public class RobotContainer
 
         SPOOL_BUTTON.whenPressed(new SequentialCommandGroup(
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
-                new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
+                new LockFunctionCommand(shooter::isSpiking, () -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
+                new WaitUntilCommand(shooter::isFlywheelReady),
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
                 new WaitUntilCommand(() -> (MANUAL_SHOOTER_BUTTON.get() || LOW_SHOOTER_BUTTON.get()))
         ));
