@@ -23,7 +23,7 @@ public class Shooter extends SubsystemBase
     public Shooter() {
         flywheelMotor.addFollower(FLYWHEEL_FOLLOWER_ID, TalonFXInvertType.OpposeMaster);
         flywheelMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_21_FeedbackIntegrated, 125);
-        flywheelMotor.configPID(0.035677, 0.0001, 0);
+        flywheelMotor.configPID(0.035677, 0.00015, 0);
     }
 
     public boolean isFlywheelReady() {
