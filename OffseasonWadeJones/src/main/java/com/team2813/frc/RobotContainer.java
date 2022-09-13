@@ -141,7 +141,7 @@ public class RobotContainer
 
         EXTEND_BUTTON.whenPressed(new SequentialCommandGroup(
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.CLIMBING)),
-                new InstantCommand(() -> climber.setPosition(Climber.Position.EXTENDED), climber),
+                new LockFunctionCommand(climber::positionReached, () -> climber.setPosition(Climber.Position.EXTENDED), climber),
                 new WaitUntilCommand(MID_CLIMB_BUTTON::get)
         ));
 
