@@ -21,6 +21,7 @@ public class RotateCommand extends CommandBase {
 
     private final Drive driveSubsystem;
     private final BiConsumer<Double, Double> speedsConsumer;
+    private final double degreesToRotateBy;
 
     private static final ProfiledPIDController thetaController = new ProfiledPIDController(
             2,
@@ -29,12 +30,12 @@ public class RotateCommand extends CommandBase {
             new TrapezoidProfile.Constraints(Drive.MAX_ANGULAR_VELOCITY, Drive.MAX_ANGULAR_ACCELERATION)
     );
 
-    private final double setpoint;
+    private double setpoint;
 
     public RotateCommand(double degreesToRotateBy, Drive driveSubsystem) {
         this.driveSubsystem = driveSubsystem;
+        this.degreesToRotateBy = degreesToRotateBy;
 
-        setpoint = driveSubsystem.getRotation().getRadians() + Math.toRadians(degreesToRotateBy);
         speedsConsumer = getSpeedsConsumer(driveSubsystem);
         addRequirements(driveSubsystem);
     }
@@ -51,6 +52,7 @@ public class RotateCommand extends CommandBase {
     @Override
     public void initialize() {
         thetaController.reset(driveSubsystem.getRotation().getRadians());
+        setpoint = driveSubsystem.getRotation().getRadians() + Math.toRadians(degreesToRotateBy);
     }
 
     @Override
