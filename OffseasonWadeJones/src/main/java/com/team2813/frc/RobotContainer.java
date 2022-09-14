@@ -5,6 +5,7 @@
 
 package com.team2813.frc;
 
+import com.team2813.frc.commands.RotateCommand;
 import com.team2813.frc.commands.def.DefaultClimberCommand;
 import com.team2813.frc.commands.def.DefaultDriveCommand;
 import com.team2813.frc.commands.def.DefaultShooterCommand;
@@ -12,6 +13,7 @@ import com.team2813.frc.commands.util.LockFunctionCommand;
 import com.team2813.frc.commands.ClimberRetractCommand;
 import com.team2813.frc.subsystems.*;
 import com.team2813.frc.util.Lightshow;
+import com.team2813.frc.util.Limelight;
 import com.team2813.frc.util.ShuffleboardData;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -42,6 +44,8 @@ public class RobotContainer
     private final Drive drive = new Drive();
 
     private final XboxController controller = new XboxController(0);
+
+    private final Limelight limelight = Limelight.getInstance();
     
     
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -114,7 +118,21 @@ public class RobotContainer
                 new LockFunctionCommand(shooter::isSpiking, () -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
                 new WaitUntilCommand(shooter::isFlywheelReady),
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
-                new WaitUntilCommand(() -> (MANUAL_SHOOTER_BUTTON.get() || LOW_SHOOTER_BUTTON.get()))
+                new WaitUntilCommand(() -> (AUTO_SHOOTER_BUTTON.get() || MANUAL_SHOOTER_BUTTON.get() || LOW_SHOOTER_BUTTON.get()))
+        ));
+
+        AUTO_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
+                new RotateCommand(limelight.getValues().getTx(), drive),
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
+                new LockFunctionCommand(shooter::isSpiking, () -> shooter.setFlywheelRPM(limelight.getFlywheelDemand()), shooter),
+                new WaitUntilCommand(shooter::isFlywheelReady),
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
+                new InstantCommand(magazine::shoot, magazine),
+                new WaitUntilCommand(() -> !AUTO_SHOOTER_BUTTON.get())
+        ));
+        AUTO_SHOOTER_BUTTON.whenReleased(() -> new ParallelCommandGroup(
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.ENABLED)),
+                new InstantCommand(magazine::stop, magazine)
         ));
 
         MANUAL_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
