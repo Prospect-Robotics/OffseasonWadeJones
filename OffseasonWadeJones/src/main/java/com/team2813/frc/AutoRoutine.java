@@ -2,6 +2,7 @@ package com.team2813.frc;
 
 import com.team2813.frc.commands.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -31,39 +32,45 @@ public enum AutoRoutine {
             new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())
     )),
     THREE_BALL_BASIC("3-ball Basic", new SequentialCommandGroup(
-            new AutoInitDriveCommand("ThreeBall_Shoot", true, ROBOT_CONTAINER.getDrive()),
-            new FollowCommand("ThreeBall_Shoot", ROBOT_CONTAINER.getDrive()),
+            new AutoInitDriveCommand("ThreeBall_Basic_TarmacShoot", ROBOT_CONTAINER.getDrive()),
+            new FollowCommand("ThreeBall_Basic_TarmacShoot", ROBOT_CONTAINER.getDrive()),
             new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter()),
+            new RotateCommand(180, ROBOT_CONTAINER.getDrive()),
             new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
-            new FollowCommand("ThreeBall_Shoot", true, ROBOT_CONTAINER.getDrive()),
+            new FollowCommand("ThreeBall_Basic_IntakeThenShoot", ROBOT_CONTAINER.getDrive()),
             new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
-            new FollowCommand("ThreeBall_Shoot", true, ROBOT_CONTAINER.getDrive()),
             new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())
     )),
     THREE_BALL_KNOCK("3-ball Knock", new SequentialCommandGroup(
-        new FollowCommand("ThreeBall_Shoot", ROBOT_CONTAINER.getDrive()),
-        new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter()),
-        new FollowCommand("ThreeBall_Shoot", ROBOT_CONTAINER.getDrive()),
-        new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
-        new WaitCommand(1),
-        new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
-        new FollowCommand("ThreeBall_Shoot", ROBOT_CONTAINER.getDrive()),
-        new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())
+            new AutoInitDriveCommand("TwoBall_Basic", true, ROBOT_CONTAINER.getDrive()),
+            new FollowCommand("TwoBall_Basic", true, ROBOT_CONTAINER.getDrive()),
+            new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter()),
+            new RotateCommand(90, ROBOT_CONTAINER.getDrive()),
+            new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
+            new ParallelCommandGroup(
+                    new FollowCommand("ThreeBall_Knock", ROBOT_CONTAINER.getDrive()),
+                    new SequentialCommandGroup(
+                            new WaitCommand(1),
+                            new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine())
+                    )
+            ),
+            new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())
     )),
-    THREE_BALL_COMPLEX("3-ball Complex", new SequentialCommandGroup(
-        new FollowCommand("ThreeBall_Shoot", ROBOT_CONTAINER.getDrive()),
-        new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter()),
-        new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter()),
-        new FollowCommand("ThreeBall_Shoot", ROBOT_CONTAINER.getDrive()),
-        new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
-        new WaitCommand(1),
-        new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
-        new FollowCommand("ThreeBall_Shoot", ROBOT_CONTAINER.getDrive()),
-        new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter()),
-        new FollowCommand("ThreeBall_Shoot", ROBOT_CONTAINER.getDrive()),
-        new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
-        new WaitCommand(1),
-        new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine())
+    THREE_BALL_INTAKE("3-ball Intake", new SequentialCommandGroup(
+            new AutoInitDriveCommand("ThreeBall_Intake_TarmacShoot", true, ROBOT_CONTAINER.getDrive()),
+            new FollowCommand("ThreeBall_Intake_TarmacShoot", true, ROBOT_CONTAINER.getDrive()),
+            new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter()),
+            new RotateCommand(90, ROBOT_CONTAINER.getDrive()),
+            new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
+            new FollowCommand("ThreeBall_Intake_IntakeThenShoot", ROBOT_CONTAINER.getDrive()),
+            new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
+            new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter()),
+            new RotateCommand(180, ROBOT_CONTAINER.getDrive()),
+            new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
+            new FollowCommand("ThreeBall_Intake_IntakeOpponentBall", ROBOT_CONTAINER.getDrive()),
+            new WaitCommand(1),
+            new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine())
+
     )),
     ROTATE_90_TEST("Rotate 90 Test", new RotateCommand(90, ROBOT_CONTAINER.getDrive())),
     ROTATE_180_TEST("Rotate 180 Test", new RotateCommand(180, ROBOT_CONTAINER.getDrive())),
