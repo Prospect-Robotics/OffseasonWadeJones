@@ -11,7 +11,7 @@ public class Limelight {
     private static final double TARGET_HEIGHT = 104; // inches
 
     private Limelight() {
-        setStream(0);
+        setStream(2);
     }
 
     private static final Limelight instance = new Limelight();
