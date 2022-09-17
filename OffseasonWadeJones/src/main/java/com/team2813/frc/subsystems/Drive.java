@@ -88,13 +88,19 @@ public class Drive extends SubsystemBase {
             SmartDashboard.putString("Current Pose", odometry.getPoseMeters().toString());
         }
 
-        if (!Robot.isAuto) speedDemand = new DriveDemand(speedDemand.getLeft() * MAX_VELOCITY, speedDemand.getRight() * MAX_VELOCITY); // m/s
-        SmartDashboard.putNumber("Left Demand", speedDemand.getLeft());
-        SmartDashboard.putNumber("Right Demand", speedDemand.getRight());
-        DriveDemand motorDemand = Units2813.dtDemandToMotorDemand(speedDemand); // rpm
+        // speedDemand is an actual velocity during auto and a percentage during teleop
+        if (Robot.isAuto) {
+            SmartDashboard.putNumber("Left Demand", speedDemand.getLeft());
+            SmartDashboard.putNumber("Right Demand", speedDemand.getRight());
+            DriveDemand motorDemand = Units2813.dtDemandToMotorDemand(speedDemand); // rpm
 
-        leftMotor.set(ControlMode.VELOCITY, motorDemand.getLeft(), feedforward.calculate(speedDemand.getLeft()) / 12);
-        rightMotor.set(ControlMode.VELOCITY, motorDemand.getRight(), feedforward.calculate(speedDemand.getRight()) / 12);
+            leftMotor.set(ControlMode.VELOCITY, motorDemand.getLeft(), feedforward.calculate(speedDemand.getLeft()) / 12);
+            rightMotor.set(ControlMode.VELOCITY, motorDemand.getRight(), feedforward.calculate(speedDemand.getRight()) / 12);
+        }
+        else {
+            leftMotor.set(ControlMode.DUTY_CYCLE, speedDemand.getLeft());
+            rightMotor.set(ControlMode.DUTY_CYCLE, speedDemand.getRight());
+        }
     }
 
     public void drive(DriveDemand driveDemand) {
