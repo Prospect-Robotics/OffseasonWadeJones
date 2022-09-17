@@ -38,10 +38,10 @@ public class Shooter extends SubsystemBase
 
     public boolean hasSpiked() {
         if (snapshotSpeed < demand) {
-            return (flywheelVelocity - prevFlywheelVelocity) < 0;
+            return flywheelVelocity < prevFlywheelVelocity;
         }
         else {
-            return (flywheelVelocity - prevFlywheelVelocity) > 0;
+            return flywheelVelocity > prevFlywheelVelocity;
         }
     }
 

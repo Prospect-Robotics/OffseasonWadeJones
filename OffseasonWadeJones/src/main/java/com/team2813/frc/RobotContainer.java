@@ -147,7 +147,8 @@ public class RobotContainer
 
         LOW_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
-                new LockFunctionCommand(shooter::isFlywheelReady, () -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND), shooter),
+                new LockFunctionCommand(shooter::hasSpiked, () -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND), shooter),
+                new WaitUntilCommand(shooter::isFlywheelReady),
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
                 new InstantCommand(magazine::lowShoot, magazine),
                 new WaitUntilCommand(() -> !LOW_SHOOTER_BUTTON.get())
