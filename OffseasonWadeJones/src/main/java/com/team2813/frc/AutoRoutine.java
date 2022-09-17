@@ -52,7 +52,7 @@ public enum AutoRoutine {
             new ParallelCommandGroup(
                     new FollowCommand("ThreeBall_Knock", ROBOT_CONTAINER.getDrive()),
                     new SequentialCommandGroup(
-                            new WaitCommand(1),
+                            new WaitCommand(1.125),
                             new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine())
                     )
             ),
