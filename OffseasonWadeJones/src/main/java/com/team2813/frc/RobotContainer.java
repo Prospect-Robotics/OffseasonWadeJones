@@ -115,18 +115,18 @@ public class RobotContainer
 
         SPOOL_BUTTON.whenPressed(new SequentialCommandGroup(
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
-                new LockFunctionCommand(shooter::isSpiking, () -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
+                new LockFunctionCommand(shooter::hasSpiked, () -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
                 new WaitUntilCommand(shooter::isFlywheelReady),
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
                 new WaitUntilCommand(() -> (AUTO_SHOOTER_BUTTON.get() || MANUAL_SHOOTER_BUTTON.get() || LOW_SHOOTER_BUTTON.get()))
         ));
 
         AUTO_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
-                new RotateCommand(limelight.getValues().getTx(), drive),
-                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
-                new LockFunctionCommand(shooter::isSpiking, () -> shooter.setFlywheelRPM(limelight.getFlywheelDemand()), shooter),
-                new WaitUntilCommand(shooter::isFlywheelReady),
-                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
+                //new RotateCommand(() -> -limelight.getValues().getTx(), drive),
+//                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
+//                new LockFunctionCommand(shooter::hasSpiked, () -> shooter.setFlywheelRPM(1700), shooter),
+//                new WaitUntilCommand(shooter::isFlywheelReady),
+//                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
                 new InstantCommand(magazine::shoot, magazine),
                 new WaitUntilCommand(() -> !AUTO_SHOOTER_BUTTON.get())
         ));

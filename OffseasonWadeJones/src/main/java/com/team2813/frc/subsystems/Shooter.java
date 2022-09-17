@@ -10,6 +10,8 @@ import com.team2813.lib.motors.TalonFXWrapper;
 import com.team2813.frc.util.Limelight;
 import com.team2813.frc.util.Units2813;
 
+import java.util.function.DoubleSupplier;
+
 import static com.team2813.frc.Constants.*;
 
 public class Shooter extends SubsystemBase 
@@ -21,6 +23,8 @@ public class Shooter extends SubsystemBase
 
     private double demand;
     private double snapshotSpeed = 0; // Speed of flywheel when the demand changes
+    private double prevFlywheelVelocity;
+    private double flywheelVelocity;
 
     public Shooter() {
         flywheelMotor.addFollower(FLYWHEEL_FOLLOWER_ID, TalonFXInvertType.OpposeMaster);
@@ -32,18 +36,19 @@ public class Shooter extends SubsystemBase
         return Math.abs(Units2813.motorRevsToWheelRevs(flywheelMotor.getVelocity(), FLYWHEEL_UPDUCTION) - demand) < marginOfError;
     }
 
-    public boolean isSpiking() {
+    public boolean hasSpiked() {
         if (snapshotSpeed < demand) {
-            return (demand - Units2813.motorRevsToWheelRevs(flywheelMotor.getVelocity(), FLYWHEEL_UPDUCTION)) < -marginOfError;
+            return (flywheelVelocity - prevFlywheelVelocity) < 0;
         }
         else {
-            return (demand - Units2813.motorRevsToWheelRevs(flywheelMotor.getVelocity(), FLYWHEEL_UPDUCTION)) > marginOfError;
+            return (flywheelVelocity - prevFlywheelVelocity) > 0;
         }
     }
 
     @Override
     public void periodic() {
-        double flywheelVelocity = Units2813.motorRevsToWheelRevs(flywheelMotor.getVelocity(), FLYWHEEL_UPDUCTION);
+        prevFlywheelVelocity = flywheelVelocity;
+        flywheelVelocity = Units2813.motorRevsToWheelRevs(flywheelMotor.getVelocity(), FLYWHEEL_UPDUCTION);
         double error = demand - flywheelVelocity;
         SmartDashboard.putNumber("Flywheel Demand", demand);
         SmartDashboard.putNumber("Flywheel Velocity", flywheelVelocity);
@@ -58,5 +63,9 @@ public class Shooter extends SubsystemBase
 
         double motorDemand = Units2813.wheelRevsToMotorRevs(demand, FLYWHEEL_UPDUCTION);
         flywheelMotor.set(ControlMode.VELOCITY, motorDemand, feedforward.calculate(motorDemand / 60) / 12);
+    }
+
+    public void setFlywheelRPM(DoubleSupplier demandSupplier) {
+        setFlywheelRPM(demandSupplier.getAsDouble());
     }
 }
