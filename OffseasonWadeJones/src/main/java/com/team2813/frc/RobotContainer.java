@@ -17,6 +17,7 @@ import com.team2813.frc.util.Limelight;
 import com.team2813.frc.util.ShuffleboardData;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -122,15 +123,21 @@ public class RobotContainer
         ));
 
         AUTO_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
-                //new RotateCommand(() -> -limelight.getValues().getTx(), drive),
-//                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
-//                new LockFunctionCommand(shooter::hasSpiked, () -> shooter.setFlywheelRPM(1700), shooter),
-//                new WaitUntilCommand(shooter::isFlywheelReady),
-//                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
+                new InstantCommand(() -> limelight.setLights(true)),
+                new WaitCommand(0.125),
+                new RotateCommand(() -> -limelight.getValues().getTx(), drive),
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
+                new LockFunctionCommand(shooter::hasSpiked, () -> shooter.setFlywheelRPM(limelight::getFlywheelDemand), shooter),
+                new WaitUntilCommand(shooter::isFlywheelReady),
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
                 new InstantCommand(magazine::shoot, magazine),
-                new WaitUntilCommand(() -> !AUTO_SHOOTER_BUTTON.get())
+                new WaitCommand(2),
+                new InstantCommand(magazine::stop, magazine),
+                new InstantCommand(() -> limelight.setLights(false)),
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.ENABLED))
         ));
-        AUTO_SHOOTER_BUTTON.whenReleased(() -> new ParallelCommandGroup(
+        AUTO_SHOOTER_BUTTON.whenReleased(new ParallelCommandGroup(
+                new InstantCommand(() -> limelight.setLights(false)),
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.ENABLED)),
                 new InstantCommand(magazine::stop, magazine)
         ));

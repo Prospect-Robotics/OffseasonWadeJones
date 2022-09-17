@@ -113,7 +113,7 @@ public class Robot extends TimedRobot
         isAuto = false;
 
         LIGHTSHOW.setLight(Lightshow.Light.ENABLED);
-        limelight.setLights(true);
+        //limelight.setLights(true);
 
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
