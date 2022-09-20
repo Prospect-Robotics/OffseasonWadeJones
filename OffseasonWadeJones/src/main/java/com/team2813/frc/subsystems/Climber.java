@@ -1,7 +1,6 @@
 package com.team2813.frc.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
-import com.team2813.lib.motors.ControlMode;
 import com.team2813.lib.motors.TalonFXWrapper;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,13 +45,13 @@ public class Climber extends Subsystem1d<Climber.Position> {
 
     public enum Position implements Subsystem1d.Position {
         RETRACTED(0),
-        RISE_POS(80),
-        NEXT_BAR(105),
-        EXTENDED(125);
+        RISE_POS(100),
+        NEXT_BAR(125),
+        EXTENDED(145);
 
-        int encoderTicks;
+        final double encoderTicks;
 
-        Position(int encoderTicks) {
+        Position(double encoderTicks) {
             this.encoderTicks = encoderTicks;
         }
 
