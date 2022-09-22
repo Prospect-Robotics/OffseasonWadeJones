@@ -27,8 +27,7 @@ public class Limelight {
 
     public double getFlywheelDemand() { // returns in rpm
         double distance = calculateHorizontalDistance();
-        return -414835.9 + (523050.4 * distance) - (260813.7 * Math.pow(distance, 2)) + (64555.86 * Math.pow(distance, 3)) -
-                (7930.151 * Math.pow(distance, 4)) + (386.8367 * Math.pow(distance, 5));
+        return (162.1452 * distance) + 1350.577;
     }
 
     public void setLights(boolean enable) {
