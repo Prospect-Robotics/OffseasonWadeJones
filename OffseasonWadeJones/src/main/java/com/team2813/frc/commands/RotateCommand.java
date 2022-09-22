@@ -6,6 +6,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -33,6 +34,8 @@ public class RotateCommand extends CommandBase {
     );
 
     private double setpoint;
+    private double startTime;
+    private double timeLimit;
 
     public RotateCommand(double degreesToRotateBy, Drive driveSubsystem) {
         this.driveSubsystem = driveSubsystem;
@@ -65,6 +68,9 @@ public class RotateCommand extends CommandBase {
 
         if (degreeSupplier != null) degreesToRotateBy = degreeSupplier.getAsDouble();
         setpoint = driveSubsystem.getRotation().getRadians() + Math.toRadians(degreesToRotateBy);
+
+        startTime = Timer.getFPGATimestamp();
+        timeLimit = 2.912741 - (2.578397 / (Math.pow(2, Math.abs(degreesToRotateBy) / 36.64473)));
     }
 
     @Override
@@ -81,7 +87,7 @@ public class RotateCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(setpoint - driveSubsystem.getRotation().getRadians()) <= Math.toRadians(1);
+        return (Timer.getFPGATimestamp() - startTime) >= timeLimit;
     }
 
     @Override
