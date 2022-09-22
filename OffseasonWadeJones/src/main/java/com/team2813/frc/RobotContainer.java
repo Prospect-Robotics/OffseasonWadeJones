@@ -116,7 +116,8 @@ public class RobotContainer
 
         SPOOL_BUTTON.whenPressed(new SequentialCommandGroup(
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
-                new LockFunctionCommand(shooter::hasSpiked, () -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
+                new InstantCommand(() -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
+                new WaitCommand(0.5),
                 new WaitUntilCommand(shooter::isFlywheelReady),
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
                 new WaitUntilCommand(() -> (AUTO_SHOOTER_BUTTON.get() || MANUAL_SHOOTER_BUTTON.get() || LOW_SHOOTER_BUTTON.get()))
@@ -127,7 +128,8 @@ public class RobotContainer
                 new WaitCommand(0.125),
                 new RotateCommand(() -> -limelight.getValues().getTx(), drive),
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
-                new LockFunctionCommand(shooter::hasSpiked, () -> shooter.setFlywheelRPM(limelight::getFlywheelDemand), shooter),
+                new InstantCommand(() -> shooter.setFlywheelRPM(limelight::getFlywheelDemand), shooter),
+                new WaitCommand(0.25),
                 new WaitUntilCommand(shooter::isFlywheelReady),
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
                 new InstantCommand(magazine::shoot, magazine),
@@ -154,7 +156,8 @@ public class RobotContainer
 
         LOW_SHOOTER_BUTTON.whenHeld(new SequentialCommandGroup(
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
-                new LockFunctionCommand(shooter::hasSpiked, () -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND), shooter),
+                new InstantCommand(() -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND), shooter),
+                new WaitCommand(0.25),
                 new WaitUntilCommand(shooter::isFlywheelReady),
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
                 new InstantCommand(magazine::lowShoot, magazine),

@@ -36,15 +36,6 @@ public class Shooter extends SubsystemBase
         return Math.abs(Units2813.motorRevsToWheelRevs(flywheelMotor.getVelocity(), FLYWHEEL_UPDUCTION) - demand) < marginOfError;
     }
 
-    public boolean hasSpiked() {
-        if (snapshotSpeed < demand) {
-            return flywheelVelocity < prevFlywheelVelocity;
-        }
-        else {
-            return flywheelVelocity > prevFlywheelVelocity;
-        }
-    }
-
     @Override
     public void periodic() {
         prevFlywheelVelocity = flywheelVelocity;
