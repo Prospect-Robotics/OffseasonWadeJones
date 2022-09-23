@@ -6,7 +6,6 @@
 package com.team2813.frc;
 
 import com.team2813.frc.commands.RotateCommand;
-import com.team2813.frc.commands.def.DefaultClimberCommand;
 import com.team2813.frc.commands.def.DefaultDriveCommand;
 import com.team2813.frc.commands.def.DefaultShooterCommand;
 import com.team2813.frc.commands.util.LockFunctionCommand;
@@ -15,9 +14,9 @@ import com.team2813.frc.subsystems.*;
 import com.team2813.frc.util.Lightshow;
 import com.team2813.frc.util.Limelight;
 import com.team2813.frc.util.ShuffleboardData;
+import com.team2813.lib.motors.ControlMode;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -52,6 +51,8 @@ public class RobotContainer
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
+        // Set default commands for subsystems
+
         drive.setDefaultCommand(new DefaultDriveCommand(
                 controller::getRightTriggerAxis,
                 controller::getLeftTriggerAxis,
@@ -60,7 +61,13 @@ public class RobotContainer
                 drive
         ));
         shooter.setDefaultCommand(new DefaultShooterCommand(shooter));
-        climber.setDefaultCommand(new DefaultClimberCommand(climber));
+
+         // Makes sure that the climber stays retracted when not climbing
+        climber.setDefaultCommand(new ConditionalCommand(
+                new InstantCommand(() -> climber.setMotorSpeed(ControlMode.DUTY_CYCLE, 0), climber),
+                new ClimberRetractCommand(climber),
+                climber::positionReached
+        ));
 
         // Configure the button bindings
         configureButtonBindings();
