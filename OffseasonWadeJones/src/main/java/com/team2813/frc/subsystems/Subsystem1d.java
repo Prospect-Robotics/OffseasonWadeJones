@@ -57,8 +57,4 @@ public class Subsystem1d<P extends Subsystem1d.Position> extends SubsystemBase {
         currentPosition = position;
         setPosition(position.getPos());
     }
-
-    public void setMotorSpeed(ControlMode controlMode, double speed) {
-        motor.set(controlMode, speed);
-    }
 }

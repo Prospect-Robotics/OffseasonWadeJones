@@ -18,7 +18,7 @@ public class ClimberRetractCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        climberSubsystem.setMotorSpeed(ControlMode.DUTY_CYCLE, -0.98);
+        climberSubsystem.startLoweringClimber();
         timeStart = Timer.getFPGATimestamp();
     }
 
@@ -29,7 +29,7 @@ public class ClimberRetractCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        climberSubsystem.setMotorSpeed(ControlMode.DUTY_CYCLE, 0);
+        climberSubsystem.brake();
         climberSubsystem.zeroSensors();
     }
 }

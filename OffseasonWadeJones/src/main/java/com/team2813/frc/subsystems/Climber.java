@@ -1,6 +1,7 @@
 package com.team2813.frc.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.team2813.lib.motors.ControlMode;
 import com.team2813.lib.motors.TalonFXWrapper;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,6 +42,14 @@ public class Climber extends Subsystem1d<Climber.Position> {
 
     public void retractPistons() {
         pistons.set(SolenoidGroup.PistonState.RETRACTED);
+    }
+
+    public void startLoweringClimber() {
+        motor.set(ControlMode.DUTY_CYCLE, -0.98);
+    }
+
+    public void brake() {
+        motor.set(ControlMode.DUTY_CYCLE, 0);
     }
 
     public enum Position implements Subsystem1d.Position {

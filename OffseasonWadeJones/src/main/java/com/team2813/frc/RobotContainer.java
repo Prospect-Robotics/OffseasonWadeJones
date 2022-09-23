@@ -60,11 +60,12 @@ public class RobotContainer
                 PIVOT_BUTTON::get,
                 drive
         ));
+
         shooter.setDefaultCommand(new DefaultShooterCommand(shooter));
 
          // Makes sure that the climber stays retracted when not climbing
         climber.setDefaultCommand(new ConditionalCommand(
-                new InstantCommand(() -> climber.setMotorSpeed(ControlMode.DUTY_CYCLE, 0), climber),
+                new InstantCommand(climber::brake, climber),
                 new ClimberRetractCommand(climber),
                 climber::positionReached
         ));
