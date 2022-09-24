@@ -5,16 +5,15 @@
 
 package com.team2813.frc;
 
-import com.team2813.frc.commands.RotateCommand;
+import com.team2813.frc.commands.*;
+import com.team2813.frc.commands.def.DefaultClimberCommand;
 import com.team2813.frc.commands.def.DefaultDriveCommand;
 import com.team2813.frc.commands.def.DefaultShooterCommand;
 import com.team2813.frc.commands.util.LockFunctionCommand;
-import com.team2813.frc.commands.ClimberRetractCommand;
 import com.team2813.frc.subsystems.*;
 import com.team2813.frc.util.Lightshow;
 import com.team2813.frc.util.Limelight;
 import com.team2813.frc.util.ShuffleboardData;
-import com.team2813.lib.motors.ControlMode;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -64,11 +63,15 @@ public class RobotContainer
         shooter.setDefaultCommand(new DefaultShooterCommand(shooter));
 
          // Makes sure that the climber stays retracted when not climbing
-        climber.setDefaultCommand(new ConditionalCommand(
-                new InstantCommand(climber::brake, climber),
-                new ClimberRetractCommand(climber),
-                climber::positionReached
-        ));
+//        InstantCommand climberBrake = new InstantCommand(climber::brake, climber);
+//        ClimberRetractCommand climberRetract = new ClimberRetractCommand(climber);
+//        ConditionalCommand conditionalCommand = new ConditionalCommand(
+//                climberBrake,
+//                climberRetract,
+//                climber::positionReached
+//        );
+
+        climber.setDefaultCommand(new DefaultClimberCommand(climber));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -102,25 +105,13 @@ public class RobotContainer
     {
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
-        INTAKE_PISTONS_BUTTON.whenPressed(intake::toggle, intake);
+        //INTAKE_PISTONS_BUTTON.whenPressed(intake::toggle, intake);
 
-        INTAKE_BUTTON.whenHeld(new ParallelCommandGroup(
-                new InstantCommand(intake::intake, intake),
-                new InstantCommand(magazine::intake, magazine)
-        ));
-        INTAKE_BUTTON.whenReleased(new ParallelCommandGroup(
-                new InstantCommand(intake::stop, intake),
-                new InstantCommand(magazine::stop, magazine)
-        ));
+        INTAKE_BUTTON.whenHeld(new AutoIntakeCommand(intake, magazine));
+        INTAKE_BUTTON.whenReleased(new AutoStopIntakeCommand(intake, magazine));
 
-        OUTTAKE_BUTTON.whenHeld(new ParallelCommandGroup(
-                new InstantCommand(intake::outtake, intake),
-                new InstantCommand(magazine::outtake, magazine)
-        ));
-        OUTTAKE_BUTTON.whenReleased(new ParallelCommandGroup(
-                new InstantCommand(intake::stop, intake),
-                new InstantCommand(magazine::stop, magazine)
-        ));
+        OUTTAKE_BUTTON.whenHeld(new AutoOuttakeCommand(intake, magazine));
+        OUTTAKE_BUTTON.whenReleased(new AutoStopIntakeCommand(intake, magazine));
 
         SPOOL_BUTTON.whenPressed(new SequentialCommandGroup(
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
