@@ -36,7 +36,7 @@ public enum AutoRoutine {
             new AutoInitDriveCommand("ThreeBall_Basic_TarmacShoot", ROBOT_CONTAINER.getDrive()),
             new FollowCommand("ThreeBall_Basic_TarmacShoot", ROBOT_CONTAINER.getDrive()),
             new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter()),
-            new RotateCommand(180, ROBOT_CONTAINER.getDrive()),
+            new RotateCommand(135, ROBOT_CONTAINER.getDrive()),
             new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
             new FollowCommand("ThreeBall_Basic_IntakeThenShoot", ROBOT_CONTAINER.getDrive()),
             new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),

@@ -58,7 +58,7 @@ public final class Constants {
 
     public static final double DEFAULT_SHOOT_DEMAND = 250; // RPM
     public static final double MANUAL_SHOOT_DEMAND = 1900; // RPM
-    public static final double LOW_SHOOT_DEMAND = 1100; // RPM
+    public static final double LOW_SHOOT_DEMAND = 1050; // RPM
 
     // Auto Constants
     public static final double AUTO_MAX_VEL = 1.5;
