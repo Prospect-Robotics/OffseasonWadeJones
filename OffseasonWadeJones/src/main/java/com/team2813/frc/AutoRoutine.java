@@ -113,6 +113,15 @@ public enum AutoRoutine {
     TEST("Follow Test", new SequentialCommandGroup(
             new AutoInitDriveCommand("Test", ROBOT_CONTAINER.getDrive()),
             new FollowCommand("Test", ROBOT_CONTAINER.getDrive())
+    )),
+    TWO_BALL("2-Ball", new SequentialCommandGroup(
+            new InstantCommand(() -> ROBOT_CONTAINER.getShooter().setFlywheelRPM(DEFAULT_SHOOT_DEMAND), ROBOT_CONTAINER.getShooter()),
+            new AutoInitDriveCommand("TwoBall_Basic", ROBOT_CONTAINER.getDrive()),
+            new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
+            new FollowCommand("TwoBall_Basic", ROBOT_CONTAINER.getDrive()),
+            new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
+            new RotateCommand(180, ROBOT_CONTAINER.getDrive()),
+            new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())
     ));
 
     private final String name;
