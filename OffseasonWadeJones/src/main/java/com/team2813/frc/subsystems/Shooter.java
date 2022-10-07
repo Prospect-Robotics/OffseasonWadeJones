@@ -25,6 +25,7 @@ public class Shooter extends SubsystemBase
     public Shooter() {
         flywheelMotor.addFollower(FLYWHEEL_FOLLOWER_ID, TalonFXInvertType.OpposeMaster);
         flywheelMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_21_FeedbackIntegrated, 125);
+        flywheelMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_4_AinTempVbat, 125);
         flywheelMotor.configPID(0.035677, 0.00015, 0);
     }
 
@@ -40,6 +41,7 @@ public class Shooter extends SubsystemBase
         SmartDashboard.putNumber("Flywheel Velocity", flywheelVelocity);
         SmartDashboard.putNumber("Flywheel Error", error);
         SmartDashboard.putNumber("Flywheel Encoder", flywheelMotor.getEncoderPosition());
+        SmartDashboard.putNumber("Flywheel Motor Temp (degrees Celsius)", flywheelMotor.getTemperature());
         SmartDashboard.putNumber("Distance to Target", limelight.calculateHorizontalDistance());
     }
 
