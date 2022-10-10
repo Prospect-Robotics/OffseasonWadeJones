@@ -121,6 +121,7 @@ public enum AutoRoutine {
             new AutoInitDriveCommand("TwoBall_Basic", ROBOT_CONTAINER.getDrive()),
             new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
             new FollowCommand("TwoBall_Basic", ROBOT_CONTAINER.getDrive()),
+            new WaitCommand(1),
             new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
             new RotateCommand(180, ROBOT_CONTAINER.getDrive()),
             new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())
