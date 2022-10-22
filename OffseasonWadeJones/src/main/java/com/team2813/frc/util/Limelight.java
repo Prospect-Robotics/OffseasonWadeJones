@@ -9,11 +9,6 @@ public class Limelight {
     private static final double MOUNT_ANGLE = 38; // degrees (this is mount angle without washers)
     private static final double MOUNT_HEIGHT = 27; // inches
     private static final double TARGET_HEIGHT = 104; // inches
-
-    private Limelight() {
-        setStream(2);
-    }
-
     private static final Limelight instance = new Limelight();
 
     public static Limelight getInstance() {
