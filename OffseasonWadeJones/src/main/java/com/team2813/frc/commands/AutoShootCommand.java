@@ -1,6 +1,5 @@
 package com.team2813.frc.commands;
 
-import com.team2813.frc.commands.util.LockFunctionCommand;
 import com.team2813.frc.subsystems.Drive;
 import com.team2813.frc.subsystems.Magazine;
 import com.team2813.frc.subsystems.Shooter;
@@ -25,7 +24,7 @@ public class AutoShootCommand extends SequentialCommandGroup {
                 new InstantCommand(() -> shooterSubsystem.setFlywheelRPM(limelight::getFlywheelDemand), shooterSubsystem),
                 new WaitCommand(0.5),
                 new WaitUntilCommand(shooterSubsystem::isFlywheelReady),
-                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_AUTO_SHOOT)),
                 new InstantCommand(magazineSubsystem::shoot, magazineSubsystem),
                 new WaitCommand(2),
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.AUTONOMOUS)),

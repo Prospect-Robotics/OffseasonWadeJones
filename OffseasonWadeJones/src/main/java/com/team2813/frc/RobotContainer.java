@@ -117,8 +117,9 @@ public class RobotContainer
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.SPOOLING)),
                 new InstantCommand(() -> shooter.setFlywheelRPM(MANUAL_SHOOT_DEMAND), shooter),
                 new WaitCommand(0.75),
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_AUTO_SHOOT)),
                 new WaitUntilCommand(shooter::isFlywheelReady),
-                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_MANUAL_SHOOT)),
                 new WaitUntilCommand(() -> (AUTO_SHOOTER_BUTTON.get() || MANUAL_SHOOTER_BUTTON.get() || LOW_SHOOTER_BUTTON.get()))
         ));
 
@@ -130,7 +131,7 @@ public class RobotContainer
                 new InstantCommand(() -> shooter.setFlywheelRPM(limelight::getFlywheelDemand), shooter),
                 new WaitCommand(0.25),
                 new WaitUntilCommand(shooter::isFlywheelReady),
-                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_AUTO_SHOOT)),
                 new InstantCommand(magazine::shoot, magazine),
                 new WaitCommand(2),
                 new InstantCommand(magazine::stop, magazine),
@@ -158,7 +159,7 @@ public class RobotContainer
                 new InstantCommand(() -> shooter.setFlywheelRPM(LOW_SHOOT_DEMAND), shooter),
                 new WaitCommand(0.25),
                 new WaitUntilCommand(shooter::isFlywheelReady),
-                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_SHOOT)),
+                new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.READY_TO_AUTO_SHOOT)),
                 new InstantCommand(magazine::lowShoot, magazine),
                 new WaitUntilCommand(() -> !LOW_SHOOTER_BUTTON.get())
         ));

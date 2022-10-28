@@ -31,7 +31,8 @@ public class Lightshow {
         ENABLED(0, 255, 0),
         DISABLED(255, 0, 0),
         AUTONOMOUS(255, 0, 255),
-        READY_TO_SHOOT(0, 0, 255),
+        READY_TO_AUTO_SHOOT(0, 0, 255),
+        READY_TO_MANUAL_SHOOT(255, 105, 180),
         SPOOLING(255, 255, 0),
         CLIMBING(0, 0, 128);
 
