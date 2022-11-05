@@ -67,6 +67,10 @@ public class Drive extends SubsystemBase {
         return odometry.getPoseMeters();
     }
 
+    public boolean isRobotTipping() {
+        return pigeon.getPitch() > TIP_THRESHOLD;
+    }
+
     @Override
     public void periodic() {
         double leftVelocity = Units2813.motorRpmToDtVelocity(leftMotor.getVelocity()); // rpm to m/s
