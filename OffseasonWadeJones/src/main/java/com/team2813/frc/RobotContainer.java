@@ -8,7 +8,6 @@ package com.team2813.frc;
 import com.team2813.frc.commands.*;
 import com.team2813.frc.commands.def.DefaultClimberCommand;
 import com.team2813.frc.commands.def.DefaultDriveCommand;
-import com.team2813.frc.commands.def.DefaultIntakeCommand;
 import com.team2813.frc.commands.def.DefaultShooterCommand;
 import com.team2813.frc.commands.util.LockFunctionCommand;
 import com.team2813.frc.subsystems.*;
@@ -63,9 +62,16 @@ public class RobotContainer
 
         shooter.setDefaultCommand(new DefaultShooterCommand(shooter));
 
-        climber.setDefaultCommand(new DefaultClimberCommand(climber));
+         // Makes sure that the climber stays retracted when not climbing
+//        InstantCommand climberBrake = new InstantCommand(climber::brake, climber);
+//        ClimberRetractCommand climberRetract = new ClimberRetractCommand(climber);
+//        ConditionalCommand conditionalCommand = new ConditionalCommand(
+//                climberBrake,
+//                climberRetract,
+//                climber::positionReached
+//        );
 
-        //intake.setDefaultCommand(new DefaultIntakeCommand(intake, drive)); // TODO: Uncomment when we have actual tipping threshold
+        climber.setDefaultCommand(new DefaultClimberCommand(climber));
 
         // Configure the button bindings
         configureButtonBindings();

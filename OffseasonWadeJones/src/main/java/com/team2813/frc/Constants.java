@@ -63,9 +63,4 @@ public final class Constants {
     // Auto Constants
     public static final double AUTO_MAX_VEL = 1.5;
     public static final double AUTO_MAX_ACCEL = 4;
-
-    // Misc
-
-    // Pitch threshold (degrees) after which robot is in danger of tipping
-    public static final double TIP_THRESHOLD = 0; // TODO: Update with an actual value
 }
