@@ -19,14 +19,12 @@ public enum AutoRoutine {
             new WaitCommand(1),
             new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine())
     )),
-    // Tests and Chezy-only auto routines (Chezy-only because they allowed 2-ball preload, while the standard by
-    // the game manual is 1-ball preload).
-//    TWO_BALL_BASIC("2-ball Basic", new SequentialCommandGroup(
-//            new InstantCommand(() -> ROBOT_CONTAINER.getShooter().setFlywheelRPM(DEFAULT_SHOOT_DEMAND), ROBOT_CONTAINER.getShooter()),
-//            new AutoInitDriveCommand("TwoBall_Basic", true, ROBOT_CONTAINER.getDrive()),
-//            new FollowCommand("TwoBall_Basic", true, ROBOT_CONTAINER.getDrive()),
-//            new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())
-//    )),
+    TWO_BALL_BASIC("2-ball Basic", new SequentialCommandGroup(
+            new InstantCommand(() -> ROBOT_CONTAINER.getShooter().setFlywheelRPM(DEFAULT_SHOOT_DEMAND), ROBOT_CONTAINER.getShooter()),
+            new AutoInitDriveCommand("TwoBall_Basic", true, ROBOT_CONTAINER.getDrive()),
+            new FollowCommand("TwoBall_Basic", true, ROBOT_CONTAINER.getDrive()),
+            new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())
+    ));
 //    TWO_BALL_KNOCK("2-ball Knock", new SequentialCommandGroup(
 //            new InstantCommand(() -> ROBOT_CONTAINER.getShooter().setFlywheelRPM(DEFAULT_SHOOT_DEMAND), ROBOT_CONTAINER.getShooter()),
 //            new AutoInitDriveCommand("TwoBall_Knock", ROBOT_CONTAINER.getDrive()),
@@ -116,16 +114,17 @@ public enum AutoRoutine {
 //            new AutoInitDriveCommand("Test", ROBOT_CONTAINER.getDrive()),
 //            new FollowCommand("Test", ROBOT_CONTAINER.getDrive())
 //    )),
-    TWO_BALL("2-Ball", new SequentialCommandGroup(
-            new InstantCommand(() -> ROBOT_CONTAINER.getShooter().setFlywheelRPM(DEFAULT_SHOOT_DEMAND), ROBOT_CONTAINER.getShooter()),
-            new AutoInitDriveCommand("TwoBall_Basic", ROBOT_CONTAINER.getDrive()),
-            new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
-            new FollowCommand("TwoBall_Basic", ROBOT_CONTAINER.getDrive()),
-            new WaitCommand(1),
-            new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
-            new RotateCommand(180, ROBOT_CONTAINER.getDrive()),
-            new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())
-    ));
+    // Calgames only, apparently Madtown preloads with 2 balls
+//    TWO_BALL("2-Ball", new SequentialCommandGroup(
+//            new InstantCommand(() -> ROBOT_CONTAINER.getShooter().setFlywheelRPM(DEFAULT_SHOOT_DEMAND), ROBOT_CONTAINER.getShooter()),
+//            new AutoInitDriveCommand("TwoBall_Basic", ROBOT_CONTAINER.getDrive()),
+//            new AutoIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
+//            new FollowCommand("TwoBall_Basic", ROBOT_CONTAINER.getDrive()),
+//            new WaitCommand(1),
+//            new AutoStopIntakeCommand(ROBOT_CONTAINER.getIntake(), ROBOT_CONTAINER.getMagazine()),
+//            new RotateCommand(180, ROBOT_CONTAINER.getDrive()),
+//            new AutoShootCommand(ROBOT_CONTAINER.getDrive(), ROBOT_CONTAINER.getMagazine(), ROBOT_CONTAINER.getShooter())
+//    ));
 
     private final String name;
     private final Command command;
