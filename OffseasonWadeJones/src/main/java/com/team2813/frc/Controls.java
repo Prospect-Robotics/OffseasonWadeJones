@@ -17,7 +17,7 @@ public final class Controls {
     public static final JoystickButton INTAKE_BUTTON = new JoystickButton(OPERATOR, 6);
     public static final JoystickButton OUTTAKE_BUTTON = new JoystickButton(OPERATOR, 5);
     public static final JoystickButton SPOOL_BUTTON = new JoystickButton(OPERATOR, 7);
-    public static final JoystickButton EXTEND_BUTTON = new JoystickButton(OPERATOR, 1);
-    public static final JoystickButton MID_CLIMB_BUTTON = new JoystickButton(OPERATOR, 2);
-    public static final JoystickButton RISE_UP_BUTTON = new JoystickButton(OPERATOR, 3);
+    //public static final JoystickButton EXTEND_BUTTON = new JoystickButton(OPERATOR, 1);
+    //public static final JoystickButton MID_CLIMB_BUTTON = new JoystickButton(OPERATOR, 2);
+    //public static final JoystickButton RISE_UP_BUTTON = new JoystickButton(OPERATOR, 3);
 }

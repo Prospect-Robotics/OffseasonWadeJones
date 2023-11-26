@@ -38,7 +38,7 @@ public class RobotContainer
     // The robot's subsystems and commands are defined here...
     private final Shooter shooter = new Shooter();
     private final Magazine magazine = new Magazine();
-    private final Climber climber = new Climber();
+    //private final Climber climber = new Climber();
     private final Intake intake = new Intake();
     private final Drive drive = new Drive();
 
@@ -71,7 +71,7 @@ public class RobotContainer
 //                climber::positionReached
 //        );
 
-        climber.setDefaultCommand(new DefaultClimberCommand(climber));
+        //climber.setDefaultCommand(new DefaultClimberCommand(climber));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -168,7 +168,7 @@ public class RobotContainer
                 new InstantCommand(magazine::stop, magazine)
         ));
 
-        EXTEND_BUTTON.whenPressed(new SequentialCommandGroup(
+        /*EXTEND_BUTTON.whenPressed(new SequentialCommandGroup(
                 new InstantCommand(() -> LIGHTSHOW.setLight(Lightshow.Light.CLIMBING)),
                 new LockFunctionCommand(climber::positionReached, () -> climber.setPosition(Climber.Position.EXTENDED), climber),
                 new WaitUntilCommand(MID_CLIMB_BUTTON::get)
@@ -186,7 +186,7 @@ public class RobotContainer
                 new InstantCommand(climber::retractPistons, climber),
                 new WaitCommand(0.75),
                 new ClimberRetractCommand(climber)
-        ));
+        ));*/
     }
     
     
