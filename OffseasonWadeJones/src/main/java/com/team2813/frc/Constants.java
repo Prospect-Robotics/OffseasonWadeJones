@@ -40,7 +40,7 @@ public final class Constants {
     public static final int KICKER_ID = 11;
 
     // Climber
-    public static final int CLIMBER_ID = 12;
+    //public static final int CLIMBER_ID = 12;
 
     // Misc
     public static final int PIGEON_ID = 13;
