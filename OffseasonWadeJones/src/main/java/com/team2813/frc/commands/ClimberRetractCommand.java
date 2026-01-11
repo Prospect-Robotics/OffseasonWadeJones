@@ -1,7 +1,6 @@
 package com.team2813.frc.commands;
 
 import com.team2813.frc.subsystems.Climber;
-import com.team2813.lib.motors.ControlMode;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

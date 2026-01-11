@@ -6,19 +6,14 @@
 package com.team2813.frc;
 
 import com.team2813.frc.commands.*;
-import com.team2813.frc.commands.def.DefaultClimberCommand;
 import com.team2813.frc.commands.def.DefaultDriveCommand;
 import com.team2813.frc.commands.def.DefaultShooterCommand;
-import com.team2813.frc.commands.util.LockFunctionCommand;
 import com.team2813.frc.subsystems.*;
 import com.team2813.frc.util.Lightshow;
 import com.team2813.frc.util.Limelight;
 import com.team2813.frc.util.ShuffleboardData;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.*;
 
 import static com.team2813.frc.Constants.*;

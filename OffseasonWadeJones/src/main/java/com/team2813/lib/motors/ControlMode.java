@@ -8,8 +8,8 @@ public enum ControlMode {
     VELOCITY(TalonFXControlMode.Velocity, ControlType.kVelocity),
     MOTION_MAGIC(TalonFXControlMode.MotionMagic, ControlType.kPosition);
 
-    private TalonFXControlMode talonMode;
-    private ControlType sparkMode;
+    private final TalonFXControlMode talonMode;
+    private final ControlType sparkMode;
 
     ControlMode(TalonFXControlMode talonMode, ControlType sparkMode) {
         this.talonMode = talonMode;
